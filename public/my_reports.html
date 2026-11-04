@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Civic Snap - My Reports</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7f7;
+    padding: 20px;
+}
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+h1 {
+    color: #0F6B72;
+    margin: 0;
+}
+.sub {
+    color: #5B7275;
+    font-size: 14px;
+    margin: 0 0 18px 0;
+}
+.header-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.btn {
+    padding: 10px 18px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+    font-size: 14px;
+}
+.add-btn { background-color: #0F6B72; color: white; border: 1px solid #0F6B72; }
+.add-btn:hover { background-color: #09474c; }
+.map-btn { background-color: white; color: #0F6B72; border: 1px solid #0F6B72; }
+.map-btn:hover { background-color: #e6f2f3; }
+.logout-btn { background-color: transparent; color: #d9534f; border: 1px solid #d9534f; }
+.logout-btn:hover { background-color: #d9534f; color: white; }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+.report-card {
+    background: white;
+    border: 1px solid #d7e2e2;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.report-card img.photo {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+    background: #cfd8dc;
+}
+.report-body { padding: 12px 14px 14px; }
+.report-body h3 { margin: 0 0 6px 0; font-size: 16px; color: #16292B; }
+.report-body p { margin: 4px 0; font-size: 13px; color: #5B7275; }
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: bold;
+}
+.Reported { background: #fdecd0; color: #b45309; }
+.Acknowledged { background: #dbe7fd; color: #1d4ed8; }
+.InProgress { background: #e9defc; color: #7c3aed; }
+.Resolved { background: #d6f3df; color: #15803d; }
+.note {
+    background: #f1f7f7;
+    border-left: 3px solid #0F6B72;
+    padding: 6px 10px;
+    margin-top: 8px;
+    font-size: 13px;
+    color: #16292B;
+}
+.after { margin-top: 8px; }
+.after img { width: 100%; max-height: 140px; object-fit: cover; border-radius: 6px; }
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #5B7275;
+    background: white;
+    border: 1px dashed #b8cccc;
+    border-radius: 10px;
+}
+</style>
+</head>
+<body>
+
+<div class="header-container">
+    <h1>My Reports</h1>
+    <div class="header-actions">
+        <a href="add-issue.html" class="btn add-btn">+ Add Issue</a>
+        <a href="citizen_report.html" class="btn map-btn">Community Map</a>
+        <a href="login.html" class="btn logout-btn" id="logoutBtn">Logout</a>
+    </div>
+</div>
+<p class="sub" id="subtitle">Loading your reports...</p>
+
+<div class="grid" id="reportsContainer"></div>
+
+<script>
+    // ---------- Must be logged in as a citizen ----------
+    var token = localStorage.getItem("userToken");
+    var currentUser = localStorage.getItem("user");
+    if (!token || !currentUser) {
+        window.location.href = "citizen.html";
+    }
+
+    document.getElementById("logoutBtn").addEventListener("click", function () {
+        localStorage.removeItem("user");
+        localStorage.removeItem("userToken");
+    });
+
+    function esc(text) {
+        return String(text == null ? "" : text).replace(/[&<>"']/g, function (c) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+        });
+    }
+
+    var container = document.getElementById("reportsContainer");
+
+    // Ask the server for ONLY the reports submitted by the logged-in citizen
+    fetch("/api/reports/mine", { headers: { Authorization: "Bearer " + token } })
+        .then(function (response) {
+            if (response.status === 401) {
+                localStorage.removeItem("user");
+                localStorage.removeItem("userToken");
+                window.location.href = "citizen.html";
+                throw new Error("Session expired");
+            }
+            return response.json();
+        })
+        .then(function (myReports) {
+            document.getElementById("subtitle").textContent =
+                "Logged in as " + currentUser + " - " + myReports.length +
+                (myReports.length === 1 ? " report" : " reports") + " submitted";
+
+            // Nothing reported yet
+            if (myReports.length === 0) {
+                container.innerHTML =
+                    '<div class="empty" style="grid-column: 1 / -1;">' +
+                    "<h3>You haven't reported anything yet</h3>" +
+                    "<p>Spotted a pothole, garbage or a leak? Report it and it will show up here.</p>" +
+                    '<a href="add-issue.html" class="btn add-btn">+ Report an issue</a></div>';
+                return;
+            }
+
+            // Build one card per report
+            var html = "";
+            for (var i = 0; i < myReports.length; i++) {
+                var r = myReports[i];
+                var date = r.createdAt ? new Date(r.createdAt).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" }) : "";
+                var address = (r.location && r.location.address) || "";
+
+                html += '<div class="report-card">' +
+                    (r.photo ? '<img class="photo" src="' + esc(r.photo) + '" alt="Issue photo">' : "") +
+                    '<div class="report-body">' +
+                    "<h3>" + esc(r.title) + "</h3>" +
+                    '<span class="badge ' + esc(String(r.status).replace(/\s/g, "")) + '">' + esc(r.status) + "</span>" +
+                    "<p><b>" + esc(r.category) + "</b> &middot; " + esc(date) + "</p>" +
+                    "<p>" + esc(address) + "</p>" +
+                    (r.adminNote ? '<div class="note"><b>Note from admin:</b> ' + esc(r.adminNote) + "</div>" : "") +
+                    (r.afterPhoto ? '<div class="after"><p><b>After (resolved):</b></p><img src="' + esc(r.afterPhoto) + '" alt="After photo"></div>' : "") +
+                    "</div></div>";
+            }
+            container.innerHTML = html;
+        })
+        .catch(function (error) {
+            console.error("Could not load reports:", error);
+            document.getElementById("subtitle").textContent = "Could not load your reports. Is the server running?";
+        });
+</script>
+
+</body>
+</html>

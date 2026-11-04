@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Civic Snap - Community Map</title>
+
+<!-- Leaflet: the map library -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: #f5f7f7;
+}
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+h1 {
+    color: #0F6B72;
+    margin: 0;
+}
+.sub {
+    color: #5B7275;
+    font-size: 14px;
+    margin: 0 0 14px 0;
+}
+.header-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+/* Base button styles */
+.btn {
+    padding: 10px 18px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+    font-size: 14px;
+}
+.add-btn {
+    background-color: #0F6B72;
+    color: white;
+    border: 1px solid #0F6B72;
+}
+.add-btn:hover { background-color: #09474c; }
+.mine-btn {
+    background-color: white;
+    color: #0F6B72;
+    border: 1px solid #0F6B72;
+}
+.mine-btn:hover { background-color: #e6f2f3; }
+.logout-btn {
+    background-color: transparent;
+    color: #d9534f;
+    border: 1px solid #d9534f;
+}
+.logout-btn:hover {
+    background-color: #d9534f;
+    color: white;
+}
+#map {
+    height: 70vh;
+    min-height: 380px;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #d7e2e2;
+}
+.legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #5B7275;
+}
+.legend span { display: flex; align-items: center; gap: 6px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; border: 2px solid white; box-shadow: 0 0 0 1px #999; }
+.popup img { width: 100%; max-height: 120px; object-fit: cover; border-radius: 6px; margin-bottom: 6px; }
+.popup .status { font-weight: bold; }
+.popup small { color: #666; }
+</style>
+</head>
+<body>
+
+<div class="header-container">
+    <h1>Community Map</h1>
+    <div class="header-actions">
+        <a href="add-issue.html" class="btn add-btn">+ Add Issue</a>
+        <a href="my_reports.html" class="btn mine-btn">My Reports</a>
+        <a href="login.html" class="btn logout-btn" id="logoutBtn">Logout</a>
+    </div>
+</div>
+<p class="sub" id="subtitle">Loading reports...</p>
+
+<div id="map"></div>
+
+<div class="legend">
+    <span><i class="dot" style="background:#E8833A"></i> Reported</span>
+    <span><i class="dot" style="background:#2563eb"></i> Acknowledged</span>
+    <span><i class="dot" style="background:#7c3aed"></i> In Progress</span>
+    <span><i class="dot" style="background:#15803d"></i> Resolved</span>
+</div>
+
+<script>
+    // ---------- Must be logged in as a citizen ----------
+    var token = localStorage.getItem("userToken");
+    var currentUser = localStorage.getItem("user");
+    if (!token || !currentUser) {
+        window.location.href = "citizen.html";
+    }
+
+    // ---------- Logout ----------
+    document.getElementById("logoutBtn").addEventListener("click", function () {
+        localStorage.removeItem("user");
+        localStorage.removeItem("userToken");
+    });
+
+    // Make text safe before putting it inside HTML
+    function esc(text) {
+        return String(text == null ? "" : text).replace(/[&<>"']/g, function (c) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+        });
+    }
+
+    var STATUS_COLORS = {
+        "Reported": "#E8833A",
+        "Acknowledged": "#2563eb",
+        "In Progress": "#7c3aed",
+        "Resolved": "#15803d"
+    };
+
+    // A round coloured pin for each status
+    function makeIcon(color) {
+        return L.divIcon({
+            className: "",
+            html: '<div style="width:22px;height:22px;border-radius:50%;background:' + color +
+                  ';border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.4);"></div>',
+            iconSize: [22, 22],
+            iconAnchor: [11, 11],
+            popupAnchor: [0, -11]
+        });
+    }
+
+    // ---------- Build the map ----------
+    var map = L.map("map").setView([12.9720, 77.5960], 13);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors",
+        maxZoom: 19
+    }).addTo(map);
+
+    // ---------- Load ALL reports from the database and drop a pin for each ----------
+    fetch("/api/reports", { headers: { Authorization: "Bearer " + token } })
+        .then(function (response) {
+            if (response.status === 401) {
+                localStorage.removeItem("user");
+                localStorage.removeItem("userToken");
+                window.location.href = "citizen.html";
+                throw new Error("Session expired");
+            }
+            return response.json();
+        })
+        .then(function (reports) {
+            var positions = [];
+            var skipped = 0;
+
+            for (var i = 0; i < reports.length; i++) {
+                var report = reports[i];
+                var loc = report.location || {};
+
+                // a report with no pin cannot be drawn on the map
+                if (loc.lat == null || loc.lng == null) { skipped++; continue; }
+
+                var marker = L.marker([loc.lat, loc.lng], {
+                    icon: makeIcon(STATUS_COLORS[report.status] || "#E8833A")
+                }).addTo(map);
+                positions.push([loc.lat, loc.lng]);
+
+                var mine = report.reportedBy === currentUser ? " (you)" : "";
+                marker.bindPopup(
+                    '<div class="popup">' +
+                    (report.photo ? '<img src="' + esc(report.photo) + '" alt="Issue photo">' : "") +
+                    "<b>" + esc(report.title) + "</b><br>" +
+                    esc(report.category) + "<br>" +
+                    '<span class="status" style="color:' + (STATUS_COLORS[report.status] || "#333") + '">' + esc(report.status) + "</span><br>" +
+                    "<small>" + esc((report.location && report.location.address) || "") + "</small><br>" +
+                    "<small>Reported by " + esc(report.reportedBy) + mine + "</small>" +
+                    "</div>"
+                );
+            }
+
+            if (positions.length > 0) {
+                map.fitBounds(positions, { padding: [40, 40], maxZoom: 16 });
+            }
+
+            var text = reports.length + (reports.length === 1 ? " issue" : " issues") + " reported by the community";
+            if (skipped > 0) text += " (" + skipped + " without a map pin not shown)";
+            document.getElementById("subtitle").textContent = reports.length === 0
+                ? "No issues reported yet. Be the first - tap \"+ Add Issue\"."
+                : text;
+        })
+        .catch(function (error) {
+            console.error("Could not load reports:", error);
+            document.getElementById("subtitle").textContent = "Could not load reports. Is the server running?";
+        });
+</script>
+
+</body>
+</html>
