@@ -23,6 +23,9 @@ const reportSchema = new mongoose.Schema({
     address: { type: String, required: true }, // typed street/area
     lat: { type: Number, default: null },      // pin on the map (used by the Community Map)
     lng: { type: Number, default: null },
+    // where the pin came from: "camera" = photo taken live in the app with GPS, "photo" = read from an
+    // uploaded photo's GPS tag, "gps" = device GPS, "map" = placed by hand
+    source: { type: String, enum: ["camera", "photo", "gps", "map"], default: "map" },
   },
   photo: { type: String, required: true },     // "before" photo as a base64 data URL
   afterPhoto: { type: String, default: null }, // added by admin once resolved
