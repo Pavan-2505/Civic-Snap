@@ -42,7 +42,6 @@ a{color:inherit}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:8px}
 ::-webkit-scrollbar-track{background:transparent}
 
-/* ---- background: faint contour lines that light up around the cursor ---- */
 .topo,.topo-lit{position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--topo) center/cover no-repeat}
 .topo{opacity:.07}
 .topo-lit{opacity:.5;
@@ -52,14 +51,12 @@ a{color:inherit}
   background:radial-gradient(420px circle at var(--mx) var(--my),rgba(45,212,191,.055),transparent 70%)}
 .page{position:relative;z-index:1}
 
-/* ---- type ---- */
 .display{font-family:var(--display);text-transform:uppercase;font-weight:700;letter-spacing:-.005em;line-height:.98}
 .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);display:flex;align-items:center;gap:8px}
 .eyebrow::before{content:"";width:18px;height:1px;background:var(--teal)}
 .mono{font-family:var(--mono)}
 .sub{color:var(--muted);font-size:.95rem}
 
-/* ---- surfaces with HUD corner brackets ---- */
 .panel{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .hud{position:relative}
@@ -74,64 +71,23 @@ a{color:inherit}
    linear-gradient(var(--teal),var(--teal)) bottom right/14px 1px no-repeat,
    linear-gradient(var(--teal),var(--teal)) bottom right/1px 14px no-repeat}
 .hud:hover::before{opacity:1}
-.panel h2,.panel-title{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;gap:10px}
-.panel-title a{color:var(--teal);text-decoration:none}
-.panel-title a:hover{text-decoration:underline}
 
-/* ---- brand ---- */
 .brand{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;font-size:1.15rem}
 .brand-logo{display:block;width:auto;height:104px;max-width:520px;object-fit:contain;flex:0 0 auto}
-
 .mark{width:18px;height:18px;border:1.5px solid var(--teal);border-radius:50%;position:relative;flex-shrink:0}
 .mark::before,.mark::after{content:"";position:absolute;background:var(--teal)}
 .mark::before{left:50%;top:-4px;bottom:-4px;width:1.5px;transform:translateX(-50%)}
 .mark::after{top:50%;left:-4px;right:-4px;height:1.5px;transform:translateY(-50%)}
 
-/* ---- buttons ---- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:10px;
-  border:1px solid var(--line2);background:rgba(255,255,255,.06);color:var(--ink);font-weight:600;font-size:.9rem;
-  cursor:pointer;text-decoration:none;transition:background .2s ease,transform .2s ease,border-color .2s ease,box-shadow .2s ease}
-.btn:hover{background:rgba(255,255,255,.12);transform:translateY(-1px)}
-.btn:active{transform:translateY(0)}
-.btn.small{padding:6px 12px;font-size:.8rem;border-radius:8px}
-.btn.primary{background:var(--teal);border-color:var(--teal);color:#04211d;box-shadow:0 6px 20px rgba(45,212,191,.22)}
-.btn.primary:hover{background:#5eead4;box-shadow:0 8px 26px rgba(45,212,191,.34)}
-.btn.success{background:#059669;border-color:#059669;color:#fff}
-.btn.success:hover{background:#047857}
-.btn.danger{background:rgba(248,113,113,.12);color:var(--danger);border-color:rgba(248,113,113,.32)}
-.btn.danger:hover{background:rgba(248,113,113,.24)}
-.btn.ghost{background:transparent}
-.btn .arr{display:inline-block;transition:transform .2s ease}
-.btn:hover .arr{transform:translateX(3px)}
-.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
-
-/* ---- forms ---- */
 label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:16px 0 7px;font-weight:500}
 input[type=text],input[type=password],input[type=search],select,textarea{
   width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--line2);background:rgba(255,255,255,.05);
   color:#fff;font-size:.95rem;outline:none;transition:border-color .2s ease,background .2s ease,box-shadow .2s ease}
 input:focus,select:focus,textarea:focus{border-color:var(--teal);background:rgba(255,255,255,.08);box-shadow:0 0 0 3px rgba(45,212,191,.12)}
 input::placeholder,textarea::placeholder{color:var(--dim)}
-select option{background:#0f1c2d;color:#fff}
-.msg{font-size:.85rem;margin:10px 0 0;display:none}
-.error{color:var(--danger)}
-.success{color:var(--success)}
 
-/* ---- status badges ---- */
-.badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;font-size:.74rem;font-weight:600;white-space:nowrap;letter-spacing:.02em}
-.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
-.Reported{background:rgba(251,191,36,.13);color:var(--s-reported)}
-.Acknowledged{background:rgba(56,189,248,.13);color:var(--s-ack)}
-.InProgress{background:rgba(167,139,250,.14);color:var(--s-prog)}
-.Resolved{background:rgba(52,211,153,.13);color:var(--s-done)}
-
-/* ---- scroll reveal (only hides things when JS is running) ---- */
 .js [data-reveal]{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
 .js [data-reveal].in{opacity:1;transform:none}
-
-#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(90px);opacity:0;pointer-events:none;background:#0b1626;border:1px solid var(--line2);
-  color:#fff;padding:12px 22px;border-radius:10px;transition:transform .3s;z-index:99;box-shadow:0 12px 30px rgba(0,0,0,.5);font-size:.9rem}
-#toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
@@ -139,13 +95,12 @@ select option{background:#0f1c2d;color:#fff}
   .topo-lit,.glow{display:none}
 }
 
-
 body{display:block}
 .topbar2{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px clamp(16px,4vw,48px);border-bottom:1px solid var(--line);background:rgba(6,14,26,.72);backdrop-filter:blur(14px);position:sticky;top:0;z-index:20}
 .back-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--teal);padding:8px 12px;border-radius:8px;border:1px solid var(--line2);transition:background .2s,transform .2s}
 .back-btn:hover{background:rgba(255,255,255,.07);transform:translateX(-2px)}
 .shell2{max-width:760px;margin:0 auto;padding:36px clamp(16px,4vw,32px) 20px}
-.shell2 h2{font-family:var(--display);text-transform:uppercase;font-size:clamp(2.2rem,6vw,3.4rem);line-height:.98;margin:10px 0 8px;font-weight:700;background:none;-webkit-text-fill-color:initial}
+.shell2 h2{font-family:var(--display);text-transform:uppercase;font-size:clamp(2.2rem,6vw,3.4rem);line-height:.98;margin:10px 0 8px;font-weight:700}
 .subtitle{color:var(--muted);margin-bottom:26px}
 .report-card{padding:28px clamp(18px,4vw,34px) 32px}
 .step{display:flex;align-items:center;gap:12px;margin:30px 0 12px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal)}
@@ -161,7 +116,11 @@ input[type=file]:hover{border-color:var(--teal)}
 input[type=file]::file-selector-button{margin-right:12px;padding:8px 14px;border-radius:8px;border:0;background:rgba(45,212,191,.16);color:var(--teal);font-weight:600;cursor:pointer}
 #preview{margin-top:12px;background:rgba(0,0,0,.25);border:1px dashed var(--line2);border-radius:12px;padding:12px;text-align:center}
 #preview img{max-width:100%;max-height:230px;border-radius:8px;display:block;margin:0 auto}
-.remove{margin-top:10px;padding:6px 14px;background:rgba(248,113,113,.14);color:var(--danger);border:1px solid rgba(248,113,113,.38);border-radius:8px;cursor:pointer;font-weight:600;font-size:.85rem}
+.preview-actions{display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.ai-btn{padding:6px 14px;background:rgba(45,212,191,.16);color:var(--teal);border:1px solid rgba(45,212,191,.4);border-radius:8px;cursor:pointer;font-weight:600;font-size:.85rem;transition:all .2s}
+.ai-btn:hover{background:rgba(45,212,191,.28)}
+.ai-btn:disabled{opacity:.6;cursor:not-allowed}
+.remove{padding:6px 14px;background:rgba(248,113,113,.14);color:var(--danger);border:1px solid rgba(248,113,113,.38);border-radius:8px;cursor:pointer;font-weight:600;font-size:.85rem}
 .remove:hover{background:rgba(248,113,113,.28)}
 textarea{resize:vertical}
 .char-count{color:var(--dim);font-family:var(--mono);font-size:11px;text-align:right;margin-top:5px}
@@ -191,7 +150,6 @@ button[type=submit]:disabled{opacity:.6;cursor:not-allowed;transform:none}
 #message.error{background:rgba(248,113,113,.13);color:var(--danger);border:1px solid rgba(248,113,113,.3)}
 footer{text-align:center;padding:24px;color:var(--dim);font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
 
-
 @media(max-width:600px){.brand-logo{height:78px;max-width:min(390px,72vw)}}
 </style>
 <script>
@@ -199,8 +157,6 @@ footer{text-align:center;padding:24px;color:var(--dim);font-family:var(--mono);f
   var root=document.documentElement;
   root.classList.add('js');
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // cursor light for the background contour lines (very subtle)
   if(!reduce){
     var raf=0,px=-400,py=-400;
     addEventListener('pointermove',function(e){
@@ -210,8 +166,6 @@ footer{text-align:center;padding:24px;color:var(--dim);font-family:var(--mono);f
       });
     },{passive:true});
   }
-
-  // fade-up on scroll
   var io=null;
   function reveal(scope){
     var els=(scope||document).querySelectorAll('[data-reveal]:not(.in)');
@@ -221,26 +175,9 @@ footer{text-align:center;padding:24px;color:var(--dim);font-family:var(--mono);f
     },{threshold:.06});
     els.forEach(function(e){io.observe(e)});
   }
-
-  // numbers count up once
-  function countUp(scope){
-    (scope||document).querySelectorAll('[data-count]:not([data-done])').forEach(function(el){
-      el.setAttribute('data-done','1');
-      var end=parseFloat(el.getAttribute('data-count'))||0, suf=el.getAttribute('data-suffix')||'';
-      if(reduce||end===0){el.textContent=end+suf;return;}
-      var t0=null,dur=800;
-      function step(t){
-        if(!t0)t0=t; var p=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-p,3);
-        el.textContent=Math.round(end*e)+suf;
-        if(p<1)requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-    });
-  }
-  window.CS={reveal:reveal,countUp:countUp};
-  document.addEventListener('DOMContentLoaded',function(){reveal();countUp();});
+  window.CS={reveal:reveal};
+  document.addEventListener('DOMContentLoaded',function(){reveal();});
 })();
-
 </script>
 </head>
 <body>
@@ -306,13 +243,11 @@ footer{text-align:center;padding:24px;color:var(--dim);font-family:var(--mono);f
 </div>
 
 <script>
-    // ---------- Who is reporting? (must be logged in as a citizen) ----------
     const token = localStorage.getItem("userToken");
     if (!token || !localStorage.getItem("user")) {
       window.location.href = "/citizen.html";
     }
 
-    // ---------- Page elements ----------
     const photoInput = document.getElementById("photo");
     const preview = document.getElementById("preview");
     const description = document.getElementById("description");
@@ -324,8 +259,8 @@ footer{text-align:center;padding:24px;color:var(--dim);font-family:var(--mono);f
     const mapHint = document.getElementById("mapHint");
 
     let category = "Road & Potholes";
-    let photoData = "";   // the (shrunk) photo as a base64 text string, ready to send to the server
-    let pin = null;       // { lat, lng } chosen on the map
+    let photoData = "";
+    let pin = null;
 
     function showMessage(text, type) {
       message.textContent = text;
@@ -333,16 +268,23 @@ footer{text-align:center;padding:24px;color:var(--dim);font-family:var(--mono);f
       message.hidden = text === "";
     }
 
-    // ---------- Category buttons ----------
+    function selectCategory(catName) {
+      buttons.forEach(function (item) {
+        if (item.dataset.category === catName) {
+          category = item.dataset.category;
+          item.classList.add("selected");
+        } else {
+          item.classList.remove("selected");
+        }
+      });
+    }
+
     buttons.forEach(function (button) {
       button.addEventListener("click", function () {
-        category = button.dataset.category;
-        buttons.forEach(function (item) { item.classList.remove("selected"); });
-        button.classList.add("selected");
+        selectCategory(button.dataset.category);
       });
     });
 
-    // ---------- Photo: read it and shrink it (phone photos are huge) ----------
     function readAndShrink(file) {
       return new Promise(function (resolve, reject) {
         const reader = new FileReader();
@@ -351,18 +293,54 @@ footer{text-align:center;padding:24px;color:var(--dim);font-family:var(--mono);f
           const img = new Image();
           img.onerror = reject;
           img.onload = function () {
-            const MAX = 1024; // longest side in pixels
+            const MAX = 1024;
             const scale = Math.min(1, MAX / Math.max(img.width, img.height));
             const canvas = document.createElement("canvas");
             canvas.width = Math.round(img.width * scale);
             canvas.height = Math.round(img.height * scale);
             canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
-            resolve(canvas.toDataURL("image/jpeg", 0.75)); // JPEG, 75% quality
+            resolve(canvas.toDataURL("image/jpeg", 0.75));
           };
           img.src = reader.result;
         };
         reader.readAsDataURL(file);
       });
+    }
+
+    // ---------- AI Analysis Handler ----------
+    async function analyzePhotoWithAI(aiBtn) {
+      if (!photoData) return;
+      aiBtn.disabled = true;
+      aiBtn.textContent = "Analyzing photo...";
+      showMessage("", "");
+
+      try {
+        const response = await fetch("/api/analyze-issue", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ photo: photoData }),
+        });
+
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "AI analysis failed");
+
+        if (data.category) selectCategory(data.category);
+        if (data.description) {
+          description.value = data.description.slice(0, 300);
+          count.textContent = description.value.length;
+        }
+        if (data.severity) {
+          const radio = document.querySelector(`input[name="severity"][value="${data.severity}"]`);
+          if (radio) radio.checked = true;
+        }
+
+        showMessage("AI auto-filled the category, description, and severity!", "success");
+      } catch (err) {
+        showMessage(err.message, "error");
+      } finally {
+        aiBtn.disabled = false;
+        aiBtn.textContent = "✨ Auto-Fill with AI";
+      }
     }
 
     photoInput.addEventListener("change", async function () {
@@ -387,6 +365,17 @@ footer{text-align:center;padding:24px;color:var(--dim);font-family:var(--mono);f
       image.src = photoData;
       image.alt = "Selected issue photo";
 
+      const actions = document.createElement("div");
+      actions.className = "preview-actions";
+
+      const aiButton = document.createElement("button");
+      aiButton.type = "button";
+      aiButton.className = "ai-btn";
+      aiButton.textContent = "✨ Auto-Fill with AI";
+      aiButton.addEventListener("click", function () {
+        analyzePhotoWithAI(aiButton);
+      });
+
       const removeButton = document.createElement("button");
       removeButton.type = "button";
       removeButton.className = "remove";
@@ -398,7 +387,8 @@ footer{text-align:center;padding:24px;color:var(--dim);font-family:var(--mono);f
         preview.hidden = true;
       });
 
-      preview.replaceChildren(image, removeButton);
+      actions.append(aiButton, removeButton);
+      preview.replaceChildren(image, actions);
       preview.hidden = false;
       showMessage("", "");
     });
@@ -407,7 +397,6 @@ footer{text-align:center;padding:24px;color:var(--dim);font-family:var(--mono);f
       count.textContent = description.value.length;
     });
 
-    // ---------- Map: drop / drag a pin ----------
     const pickMap = L.map("pickMap").setView([12.9716, 77.5946], 13);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: "&copy; OpenStreetMap contributors",
@@ -421,7 +410,6 @@ footer{text-align:center;padding:24px;color:var(--dim);font-family:var(--mono);f
       addressTypedByUser = locationInput.value.trim() !== "";
     });
 
-    // Turn the pin's coordinates into a readable address (only if the user hasn't typed one)
     function fillAddress(lat, lng) {
       if (addressTypedByUser) return;
       fetch("https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" + lat + "&lon=" + lng)
@@ -431,7 +419,7 @@ footer{text-align:center;padding:24px;color:var(--dim);font-family:var(--mono);f
             locationInput.value = data.display_name.split(",").slice(0, 3).join(",").trim();
           }
         })
-        .catch(function () { /* no internet for address lookup - user can type it */ });
+        .catch(function () {});
     }
 
     function setPin(lat, lng) {
@@ -469,9 +457,8 @@ footer{text-align:center;padding:24px;color:var(--dim);font-family:var(--mono);f
     }
 
     document.getElementById("useGpsBtn").addEventListener("click", useMyLocation);
-    useMyLocation(); // try GPS automatically when the page opens
+    useMyLocation();
 
-    // ---------- Submit ----------
     form.addEventListener("submit", async function (event) {
       event.preventDefault();
 

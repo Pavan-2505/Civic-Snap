@@ -41,7 +41,6 @@ a{color:inherit}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:8px}
 ::-webkit-scrollbar-track{background:transparent}
 
-/* ---- background: faint contour lines that light up around the cursor ---- */
 .topo,.topo-lit{position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--topo) center/cover no-repeat}
 .topo{opacity:.07}
 .topo-lit{opacity:.5;
@@ -51,14 +50,12 @@ a{color:inherit}
   background:radial-gradient(420px circle at var(--mx) var(--my),rgba(45,212,191,.055),transparent 70%)}
 .page{position:relative;z-index:1}
 
-/* ---- type ---- */
 .display{font-family:var(--display);text-transform:uppercase;font-weight:700;letter-spacing:-.005em;line-height:.98}
 .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);display:flex;align-items:center;gap:8px}
 .eyebrow::before{content:"";width:18px;height:1px;background:var(--teal)}
 .mono{font-family:var(--mono)}
 .sub{color:var(--muted);font-size:.95rem}
 
-/* ---- surfaces with HUD corner brackets ---- */
 .panel{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .hud{position:relative}
@@ -77,16 +74,13 @@ a{color:inherit}
 .panel-title a{color:var(--teal);text-decoration:none}
 .panel-title a:hover{text-decoration:underline}
 
-/* ---- brand ---- */
 .brand{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;font-size:1.15rem}
 .brand-logo{display:block;width:auto;height:104px;max-width:520px;object-fit:contain;flex:0 0 auto}
-
 .mark{width:18px;height:18px;border:1.5px solid var(--teal);border-radius:50%;position:relative;flex-shrink:0}
 .mark::before,.mark::after{content:"";position:absolute;background:var(--teal)}
 .mark::before{left:50%;top:-4px;bottom:-4px;width:1.5px;transform:translateX(-50%)}
 .mark::after{top:50%;left:-4px;right:-4px;height:1.5px;transform:translateY(-50%)}
 
-/* ---- buttons ---- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:10px;
   border:1px solid var(--line2);background:rgba(255,255,255,.06);color:var(--ink);font-weight:600;font-size:.9rem;
   cursor:pointer;text-decoration:none;transition:background .2s ease,transform .2s ease,border-color .2s ease,box-shadow .2s ease}
@@ -95,28 +89,9 @@ a{color:inherit}
 .btn.small{padding:6px 12px;font-size:.8rem;border-radius:8px}
 .btn.primary{background:var(--teal);border-color:var(--teal);color:#04211d;box-shadow:0 6px 20px rgba(45,212,191,.22)}
 .btn.primary:hover{background:#5eead4;box-shadow:0 8px 26px rgba(45,212,191,.34)}
-.btn.success{background:#059669;border-color:#059669;color:#fff}
-.btn.success:hover{background:#047857}
-.btn.danger{background:rgba(248,113,113,.12);color:var(--danger);border-color:rgba(248,113,113,.32)}
-.btn.danger:hover{background:rgba(248,113,113,.24)}
 .btn.ghost{background:transparent}
-.btn .arr{display:inline-block;transition:transform .2s ease}
-.btn:hover .arr{transform:translateX(3px)}
 .btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
 
-/* ---- forms ---- */
-label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:16px 0 7px;font-weight:500}
-input[type=text],input[type=password],input[type=search],select,textarea{
-  width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--line2);background:rgba(255,255,255,.05);
-  color:#fff;font-size:.95rem;outline:none;transition:border-color .2s ease,background .2s ease,box-shadow .2s ease}
-input:focus,select:focus,textarea:focus{border-color:var(--teal);background:rgba(255,255,255,.08);box-shadow:0 0 0 3px rgba(45,212,191,.12)}
-input::placeholder,textarea::placeholder{color:var(--dim)}
-select option{background:#0f1c2d;color:#fff}
-.msg{font-size:.85rem;margin:10px 0 0;display:none}
-.error{color:var(--danger)}
-.success{color:var(--success)}
-
-/* ---- status badges ---- */
 .badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;font-size:.74rem;font-weight:600;white-space:nowrap;letter-spacing:.02em}
 .badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
 .Reported{background:rgba(251,191,36,.13);color:var(--s-reported)}
@@ -124,7 +99,6 @@ select option{background:#0f1c2d;color:#fff}
 .InProgress{background:rgba(167,139,250,.14);color:var(--s-prog)}
 .Resolved{background:rgba(52,211,153,.13);color:var(--s-done)}
 
-/* ---- scroll reveal (only hides things when JS is running) ---- */
 .js [data-reveal]{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
 .js [data-reveal].in{opacity:1;transform:none}
 
@@ -160,10 +134,20 @@ body{display:block}
 .main{flex:1;min-width:0;padding:32px 36px 60px;position:relative;z-index:1}
 .topbar{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:28px}
 .topbar h1{font-size:clamp(2rem,4vw,3rem);margin:10px 0 6px}
-.top-actions{display:flex;gap:10px;align-items:center}
+.top-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .menu-btn{display:none}
 
-/* stat tiles (each one is a link) */
+/* AI Briefing panel */
+#aiBriefingPanel{margin-bottom:22px;border-color:rgba(45,212,191,.35);background:linear-gradient(135deg,rgba(45,212,191,.07),rgba(56,189,248,.04))}
+.ai-summary{font-size:.98rem;line-height:1.6;margin-bottom:14px;color:var(--ink)}
+.ai-priority{padding:11px 14px;border-radius:9px;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#fecaca;font-size:.88rem;margin-bottom:14px}
+.ai-priority strong{color:var(--danger);font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:3px}
+.ai-actions{list-style:none;display:flex;flex-direction:column;gap:8px}
+.ai-actions li{position:relative;padding-left:18px;font-size:.9rem;color:var(--muted)}
+.ai-actions li::before{content:"→";position:absolute;left:0;color:var(--teal);font-family:var(--mono)}
+.ai-close{background:none;border:0;color:var(--muted);cursor:pointer;font-size:1.2rem;line-height:1}
+.ai-close:hover{color:#fff}
+
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:22px}
 .tile{display:block;text-decoration:none;position:relative;padding:18px 18px 16px;border-radius:12px;background:var(--panel);border:1px solid var(--line);
   transition:transform .25s ease,border-color .25s ease,background .25s ease;overflow:hidden}
@@ -178,9 +162,7 @@ body{display:block}
 
 .grid2{display:grid;grid-template-columns:1.5fr 1fr;gap:18px;margin-bottom:18px}
 .grid2.even{grid-template-columns:1fr 1fr}
-.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-bottom:18px}
 
-/* charts */
 .chart svg{width:100%;height:auto;display:block;overflow:visible}
 .chart .ax{font-family:var(--mono);font-size:10px;fill:var(--dim)}
 .chart .gl{stroke:rgba(255,255,255,.07);stroke-width:1}
@@ -210,12 +192,9 @@ body{display:block}
 .bar-row b{font-family:var(--mono);font-weight:500;text-align:right}
 .bar{height:8px;background:rgba(255,255,255,.07);border-radius:5px;overflow:hidden}
 .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--teal));border-radius:5px;transition:width .9s cubic-bezier(.2,.7,.2,1)}
-.stack{display:flex;height:8px;border-radius:5px;overflow:hidden;background:rgba(255,255,255,.07)}
-.stack i{display:block;height:100%}
 a.bar-row{text-decoration:none;color:inherit}
 a.bar-row:hover span{color:#fff}
 
-/* lists */
 .list{display:flex;flex-direction:column}
 .item{display:flex;align-items:center;gap:14px;padding:12px 4px;border-bottom:1px solid var(--line);text-decoration:none;transition:background .2s,padding .2s}
 .item:last-child{border-bottom:0}
@@ -232,64 +211,6 @@ a.bar-row:hover span{color:#fff}
 .chip.Low{color:var(--teal);border-color:rgba(45,212,191,.4)}
 .empty{text-align:center;padding:34px 10px;color:var(--muted);font-size:.92rem}
 
-/* filter bar + chips + table */
-.filters{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px}
-.filters input{flex:1;min-width:200px}
-.filters select{width:auto;min-width:170px}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-.fchip{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:7px 14px;border-radius:99px;border:1px solid var(--line2);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s}
-.fchip:hover{color:#fff;border-color:rgba(255,255,255,.3)}
-.fchip.on{background:var(--teal);border-color:var(--teal);color:#04211d;font-weight:600}
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:.9rem}
-th{text-align:left;padding:12px 10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-weight:500;border-bottom:1px solid var(--line);white-space:nowrap}
-td{padding:13px 10px;border-bottom:1px solid rgba(255,255,255,.05);vertical-align:middle}
-tbody tr{transition:background .15s}
-tbody tr:hover td{background:rgba(255,255,255,.035)}
-td.id{font-family:var(--mono);font-size:12px;color:var(--muted)}
-.thumb{width:42px;height:42px;border-radius:8px;object-fit:cover;background:rgba(255,255,255,.08);flex-shrink:0;margin-right:12px;display:flex;align-items:center;justify-content:center;font-size:1.15rem}
-.cell-issue{display:flex;align-items:center}
-.cell-issue small{color:var(--muted);display:block;margin-top:1px}
-.count-line{font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:14px;letter-spacing:.06em}
-
-/* category cards */
-.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-.cat-card{display:block;text-decoration:none;padding:20px;border-radius:12px;background:var(--panel);border:1px solid var(--line);transition:transform .25s ease,border-color .25s,background .25s}
-.cat-card:hover{transform:translateY(-3px);border-color:var(--line2);background:var(--panel2)}
-.cat-card .top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
-.cat-card .ci{font-size:1.6rem}
-.cat-card .n{font-family:var(--display);font-weight:700;font-size:2.4rem;line-height:1}
-.cat-card h3{font-weight:600;font-size:1.02rem;margin-bottom:2px}
-.cat-card p{color:var(--muted);font-size:.8rem;margin-bottom:14px}
-.cat-card .meta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:10px;letter-spacing:.05em}
-.cat-card .go{color:var(--teal)}
-.insights{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:22px}
-.insight{padding:16px 18px;border-radius:12px;border:1px solid var(--line);background:var(--panel)}
-.insight small{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
-.insight b{font-family:var(--display);font-size:1.35rem;text-transform:uppercase;letter-spacing:.01em}
-.insight span{display:block;color:var(--muted);font-size:.8rem;margin-top:2px}
-
-/* modal */
-.overlay{position:fixed;inset:0;background:rgba(4,10,18,.78);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
-.overlay.open{display:flex}
-.modal{background:#0c1828;border:1px solid var(--line2);border-radius:14px;width:100%;max-width:700px;max-height:92vh;overflow:auto;padding:28px;box-shadow:0 30px 60px -12px rgba(0,0,0,.75);animation:pop .25s ease}
-@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
-.modal header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px}
-.modal h3{font-family:var(--display);text-transform:uppercase;font-size:1.6rem;line-height:1.05}
-.close{border:0;background:none;font-size:1.7rem;color:var(--muted);cursor:pointer;line-height:1}
-.close:hover{color:#fff}
-.meta{color:var(--muted);font-size:.85rem;margin-bottom:14px;font-family:var(--mono)}
-#mMap a{color:var(--blue);font-weight:600;font-size:.9rem}
-.steps{display:flex;gap:6px;margin:16px 0 18px}
-.steps div{flex:1;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:9px 4px;border-radius:8px;background:rgba(255,255,255,.04);color:var(--dim);border:1px solid var(--line);transition:all .25s}
-.steps div.done{background:rgba(45,212,191,.14);color:var(--teal);border-color:rgba(45,212,191,.45)}
-.imgs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
-.imgbox{border:1px dashed var(--line2);border-radius:12px;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;text-align:center;font-size:.85rem;color:var(--muted)}
-.imgbox b{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-weight:500}
-.imgbox img{max-width:100%;max-height:150px;border-radius:8px}
-.imgbox input[type=file]{font-size:.8rem;margin-top:8px;max-width:100%}
-.actions{display:flex;justify-content:space-between;gap:10px;margin-top:24px;flex-wrap:wrap}
-
 @media(max-width:1000px){
   .grid2,.grid2.even{grid-template-columns:1fr}
   .sidebar{position:fixed;left:-260px;transition:left .25s ease}
@@ -298,9 +219,7 @@ td.id{font-family:var(--mono);font-size:12px;color:var(--muted)}
   .main{padding:24px 16px 50px}
   .bar-row{grid-template-columns:120px 1fr 26px}
 }
-@media(max-width:520px){.imgs{grid-template-columns:1fr}}
-.grid2>*,.grid3>*{min-width:0}
-
+.grid2>*{min-width:0}
 
 @media(max-width:600px){.brand-logo{height:78px;max-width:min(390px,72vw)}}
 </style>
@@ -309,8 +228,6 @@ td.id{font-family:var(--mono);font-size:12px;color:var(--muted)}
   var root=document.documentElement;
   root.classList.add('js');
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // cursor light for the background contour lines (very subtle)
   if(!reduce){
     var raf=0,px=-400,py=-400;
     addEventListener('pointermove',function(e){
@@ -320,8 +237,6 @@ td.id{font-family:var(--mono);font-size:12px;color:var(--muted)}
       });
     },{passive:true});
   }
-
-  // fade-up on scroll
   var io=null;
   function reveal(scope){
     var els=(scope||document).querySelectorAll('[data-reveal]:not(.in)');
@@ -331,8 +246,6 @@ td.id{font-family:var(--mono);font-size:12px;color:var(--muted)}
     },{threshold:.06});
     els.forEach(function(e){io.observe(e)});
   }
-
-  // numbers count up once
   function countUp(scope){
     (scope||document).querySelectorAll('[data-count]:not([data-done])').forEach(function(el){
       el.setAttribute('data-done','1');
@@ -350,7 +263,6 @@ td.id{font-family:var(--mono);font-size:12px;color:var(--muted)}
   window.CS={reveal:reveal,countUp:countUp};
   document.addEventListener('DOMContentLoaded',function(){reveal();countUp();});
 })();
-
 </script>
 </head>
 <body>
@@ -365,7 +277,7 @@ td.id{font-family:var(--mono);font-size:12px;color:var(--muted)}
     <a href="admin_categories.html"><i>03</i>Categories</a>
     <a href="admin_analytics.html"><i>04</i>Analytics</a>
     <a href="admin_team.html"><i>05</i>Admins</a>
-    </nav>
+  </nav>
   <div class="me">
     <span>Signed in as</span><b id="adminName">Admin</b>
     <button class="btn small ghost" id="logoutBtn">Log out</button>
@@ -378,37 +290,50 @@ td.id{font-family:var(--mono);font-size:12px;color:var(--muted)}
       <h1 class="display">Admin Dashboard</h1>
       <p class="sub">Review, update, and resolve issues reported by citizens.</p>
     </div>
-    <div class="top-actions"><button class="btn" id="refreshBtn">↻ Refresh</button><button class="btn menu-btn" id="menuBtn">☰ Menu</button></div>
+    <div class="top-actions">
+      <button class="btn primary" id="aiBriefBtn">✨ AI Briefing</button>
+      <button class="btn" id="refreshBtn">↻ Refresh</button>
+      <button class="btn menu-btn" id="menuBtn">☰ Menu</button>
+    </div>
   </div>
-<div class="tiles" id="tiles"></div>
 
-<div class="grid2 even">
+  <!-- AI Executive Briefing Card (appears when clicked) -->
+  <div class="panel hud" id="aiBriefingPanel" hidden>
+    <div class="panel-title">
+      <span style="color:var(--teal)">✨ AI Operations Briefing</span>
+      <button class="ai-close" id="closeBriefBtn" title="Close">&times;</button>
+    </div>
+    <div id="aiBriefContent"></div>
+  </div>
+
+  <div class="tiles" id="tiles"></div>
+
+  <div class="grid2 even">
+    <div class="panel hud" data-reveal>
+      <div class="panel-title"><span>Reports · last 14 days</span><a href="admin_analytics.html">Full analytics →</a></div>
+      <div class="chart" id="trend"></div>
+    </div>
+    <div class="panel hud" data-reveal style="--d:.08s">
+      <div class="panel-title"><span>Status pipeline</span><a href="admin_reports.html">All reports →</a></div>
+      <div class="chart" id="donut"></div>
+    </div>
+  </div>
+
+  <div class="grid2 even">
+    <div class="panel hud" data-reveal>
+      <div class="panel-title"><span>Needs attention</span><a href="admin_reports.html">View all →</a></div>
+      <div class="list" id="attention"></div>
+    </div>
+    <div class="panel hud" data-reveal style="--d:.08s">
+      <div class="panel-title"><span>Latest reports</span><a href="admin_reports.html">View all →</a></div>
+      <div class="list" id="latest"></div>
+    </div>
+  </div>
+
   <div class="panel hud" data-reveal>
-    <div class="panel-title"><span>Reports · last 14 days</span><a href="admin_analytics.html">Full analytics →</a></div>
-    <div class="chart" id="trend"></div>
+    <div class="panel-title"><span>Top categories</span><a href="admin_categories.html">All categories →</a></div>
+    <div id="topCats"></div>
   </div>
-  <div class="panel hud" data-reveal style="--d:.08s">
-    <div class="panel-title"><span>Status pipeline</span><a href="admin_reports.html">All reports →</a></div>
-    <div class="chart" id="donut"></div>
-  </div>
-</div>
-
-<div class="grid2 even">
-  <div class="panel hud" data-reveal>
-    <div class="panel-title"><span>Needs attention</span><a href="admin_reports.html">View all →</a></div>
-    <div class="list" id="attention"></div>
-  </div>
-  <div class="panel hud" data-reveal style="--d:.08s">
-    <div class="panel-title"><span>Latest reports</span><a href="admin_reports.html">View all →</a></div>
-    <div class="list" id="latest"></div>
-  </div>
-</div>
-
-<div class="panel hud" data-reveal>
-  <div class="panel-title"><span>Top categories</span><a href="admin_categories.html">All categories →</a></div>
-  <div id="topCats"></div>
-</div>
-
 </main>
 </div>
 <div id="toast" role="status"></div>
@@ -422,7 +347,6 @@ const CONFIG = {
   REQUIRE_ADMIN_LOGIN: true
 };
 
-// ---- Login guard + login "pass" (token) --------------------------------
 const adminToken = localStorage.getItem('adminToken');
 if (CONFIG.REQUIRE_ADMIN_LOGIN && (!adminToken || !localStorage.getItem('adminUser'))) {
   window.location.href = CONFIG.LOGIN_PAGE;
@@ -440,7 +364,6 @@ const STATUSES = ["Reported","Acknowledged","In Progress","Resolved"];
 const ICONS = {"Road & Potholes":"🛣️","Waste Management":"🗑️","Drainage & Sanitation":"🚰","Street Lighting":"💡","Public Infrastructure":"🏗️","Water-related Issues":"💧","Other":"📌"};
 const STATUS_COLORS = {"Reported":"#fbbf24","Acknowledged":"#38bdf8","In Progress":"#a78bfa","Resolved":"#34d399"};
 
-// ---- Talks to the backend (same endpoints as before) --------------------
 const Store = {
   async getAll(){
     if (CONFIG.USE_BACKEND){
@@ -450,47 +373,18 @@ const Store = {
       return res.json();
     }
     return JSON.parse(localStorage.getItem(CONFIG.REPORTS_KEY) || "[]");
-  },
-  async update(report){
-    if (CONFIG.USE_BACKEND){
-      const res = await fetch(`${CONFIG.API_BASE}/reports/${report.id}`, {
-        method: "PUT", headers: authHeaders({ "Content-Type":"application/json" }),
-        body: JSON.stringify({ status: report.status, category: report.category, adminNote: report.adminNote, afterPhoto: report.afterPhoto })
-      });
-      if (sessionExpired(res)) return;
-      if (!res.ok) throw new Error("Could not save report");
-      return;
-    }
-    const all = await this.getAll();
-    localStorage.setItem(CONFIG.REPORTS_KEY, JSON.stringify(all.map(r => r.id === report.id ? report : r)));
-  },
-  async remove(id){
-    if (CONFIG.USE_BACKEND){
-      const res = await fetch(`${CONFIG.API_BASE}/reports/${id}`, { method:"DELETE", headers: authHeaders() });
-      if (sessionExpired(res)) return;
-      if (!res.ok) throw new Error("Could not delete report");
-      return;
-    }
-    const all = await this.getAll();
-    localStorage.setItem(CONFIG.REPORTS_KEY, JSON.stringify(all.filter(r => r.id !== id)));
   }
 };
 
-// ---- small helpers ------------------------------------------------------
 const $ = id => document.getElementById(id);
 const cls = s => String(s).replace(/\s/g, "");
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const badge = s => `<span class="badge ${cls(s)}">${esc(s)}</span>`;
 const addr = r => (r.location && r.location.address) || "Location not provided";
-const fmtDate = d => d ? new Date(d).toLocaleDateString("en-IN", { day:"2-digit", month:"short", year:"numeric" }) : "-";
 const ageDays = r => r.createdAt ? Math.max(0, Math.floor((Date.now() - new Date(r.createdAt)) / 864e5)) : 0;
 const sevWeight = r => ({High:3, Medium:2, Low:1}[r.severity] || 0);
 function toast(msg){ const t = $("toast"); t.textContent = msg; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2400); }
-function fillSelect(el, items, allLabel){
-  el.innerHTML = (allLabel ? `<option value="">${allLabel}</option>` : "") + items.map(i => `<option>${i}</option>`).join("");
-}
 
-const qs = new URLSearchParams(location.search);
 let reports = [];
 const countBy = s => reports.filter(r => r.status === s).length;
 const pctOf = (n, t) => t ? Math.round(n / t * 100) : 0;
@@ -502,7 +396,6 @@ async function loadReports(){
   return reports;
 }
 
-// ---- shell wiring (sidebar, logout) ------------------------------------
 $("adminName").textContent = localStorage.getItem('adminUser') || "Admin";
 $("logoutBtn").addEventListener("click", () => {
   localStorage.removeItem('adminUser'); localStorage.removeItem('adminToken');
@@ -510,7 +403,47 @@ $("logoutBtn").addEventListener("click", () => {
 });
 $("menuBtn").addEventListener("click", () => $("sidebar").classList.toggle("open"));
 
-// ---- charts (plain SVG, no libraries) ----------------------------------
+// ---- AI Briefing Handler ------------------------------------------------
+$("closeBriefBtn").addEventListener("click", () => { $("aiBriefingPanel").hidden = true; });
+$("aiBriefBtn").addEventListener("click", async () => {
+  const btn = $("aiBriefBtn");
+  const panel = $("aiBriefingPanel");
+  const box = $("aiBriefContent");
+
+  btn.disabled = true;
+  btn.textContent = "Generating...";
+  panel.hidden = false;
+  box.innerHTML = `<p class="sub">Analyzing open civic reports with AI...</p>`;
+
+  try {
+    const res = await fetch(`${CONFIG.API_BASE}/admin/ai-briefing`, {
+      method: "POST",
+      headers: authHeaders({ "Content-Type": "application/json" }),
+    });
+    if (sessionExpired(res)) return;
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Failed to generate briefing");
+
+    const actionsHtml = (data.recommendedActions || [])
+      .map(item => `<li>${esc(item)}</li>`)
+      .join("");
+
+    box.innerHTML = `
+      <p class="ai-summary">${esc(data.summary)}</p>
+      <div class="ai-priority">
+        <strong>Top Priority Dispatch</strong>
+        ${esc(data.topPriority)}
+      </div>
+      <ul class="ai-actions">${actionsHtml}</ul>
+    `;
+  } catch (err) {
+    box.innerHTML = `<p class="error">${esc(err.message)}</p>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "✨ AI Briefing";
+  }
+});
+
 function trendChart(el, days){
   const today = new Date(); today.setHours(0,0,0,0);
   const b = [];
@@ -563,17 +496,9 @@ function donutChart(el){
     <div class="dlegend">${legend}</div></div>`;
 }
 
-function stackBar(list){
-  const t = list.length || 1;
-  return `<div class="stack">${STATUSES.map(s => {
-    const n = list.filter(r => r.status === s).length;
-    return n ? `<i title="${s}: ${n}" style="width:${n / t * 100}%;background:${STATUS_COLORS[s]}"></i>` : "";
-  }).join("")}</div>`;
-}
 function animateBars(scope){
   requestAnimationFrame(() => (scope || document).querySelectorAll(".bar i[data-w]").forEach(i => { i.style.width = i.dataset.w + "%"; }));
 }
-
 
 function renderTiles(){
   const total = reports.length;
@@ -625,7 +550,6 @@ async function render(){
 }
 $("refreshBtn").addEventListener("click", async () => { await render(); toast("Refreshed"); });
 render();
-
 </script>
 </body>
 </html>

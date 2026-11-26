@@ -42,7 +42,6 @@ a{color:inherit}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:8px}
 ::-webkit-scrollbar-track{background:transparent}
 
-/* ---- background: faint contour lines that light up around the cursor ---- */
 .topo,.topo-lit{position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--topo) center/cover no-repeat}
 .topo{opacity:.07}
 .topo-lit{opacity:.5;
@@ -52,16 +51,12 @@ a{color:inherit}
   background:radial-gradient(420px circle at var(--mx) var(--my),rgba(45,212,191,.055),transparent 70%)}
 .page{position:relative;z-index:1}
 
-/* ---- type ---- */
 .display{font-family:var(--display);text-transform:uppercase;font-weight:700;letter-spacing:-.005em;line-height:.98}
 .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);display:flex;align-items:center;gap:8px}
 .eyebrow::before{content:"";width:18px;height:1px;background:var(--teal)}
 .mono{font-family:var(--mono)}
 .sub{color:var(--muted);font-size:.95rem}
 
-/* ---- surfaces with HUD corner brackets ---- */
-.panel{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .hud{position:relative}
 .hud::before{content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;opacity:.5;transition:opacity .3s ease;
   background:
@@ -74,20 +69,14 @@ a{color:inherit}
    linear-gradient(var(--teal),var(--teal)) bottom right/14px 1px no-repeat,
    linear-gradient(var(--teal),var(--teal)) bottom right/1px 14px no-repeat}
 .hud:hover::before{opacity:1}
-.panel h2,.panel-title{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;gap:10px}
-.panel-title a{color:var(--teal);text-decoration:none}
-.panel-title a:hover{text-decoration:underline}
 
-/* ---- brand ---- */
 .brand{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;font-size:1.15rem}
 .brand-logo{display:block;width:auto;height:104px;max-width:520px;object-fit:contain;flex:0 0 auto}
-
 .mark{width:18px;height:18px;border:1.5px solid var(--teal);border-radius:50%;position:relative;flex-shrink:0}
 .mark::before,.mark::after{content:"";position:absolute;background:var(--teal)}
 .mark::before{left:50%;top:-4px;bottom:-4px;width:1.5px;transform:translateX(-50%)}
 .mark::after{top:50%;left:-4px;right:-4px;height:1.5px;transform:translateY(-50%)}
 
-/* ---- buttons ---- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:10px;
   border:1px solid var(--line2);background:rgba(255,255,255,.06);color:var(--ink);font-weight:600;font-size:.9rem;
   cursor:pointer;text-decoration:none;transition:background .2s ease,transform .2s ease,border-color .2s ease,box-shadow .2s ease}
@@ -96,49 +85,16 @@ a{color:inherit}
 .btn.small{padding:6px 12px;font-size:.8rem;border-radius:8px}
 .btn.primary{background:var(--teal);border-color:var(--teal);color:#04211d;box-shadow:0 6px 20px rgba(45,212,191,.22)}
 .btn.primary:hover{background:#5eead4;box-shadow:0 8px 26px rgba(45,212,191,.34)}
-.btn.success{background:#059669;border-color:#059669;color:#fff}
-.btn.success:hover{background:#047857}
-.btn.danger{background:rgba(248,113,113,.12);color:var(--danger);border-color:rgba(248,113,113,.32)}
-.btn.danger:hover{background:rgba(248,113,113,.24)}
-.btn.ghost{background:transparent}
-.btn .arr{display:inline-block;transition:transform .2s ease}
-.btn:hover .arr{transform:translateX(3px)}
 .btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
 
-/* ---- forms ---- */
-label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:16px 0 7px;font-weight:500}
-input[type=text],input[type=password],input[type=search],select,textarea{
-  width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--line2);background:rgba(255,255,255,.05);
-  color:#fff;font-size:.95rem;outline:none;transition:border-color .2s ease,background .2s ease,box-shadow .2s ease}
-input:focus,select:focus,textarea:focus{border-color:var(--teal);background:rgba(255,255,255,.08);box-shadow:0 0 0 3px rgba(45,212,191,.12)}
-input::placeholder,textarea::placeholder{color:var(--dim)}
-select option{background:#0f1c2d;color:#fff}
-.msg{font-size:.85rem;margin:10px 0 0;display:none}
-.error{color:var(--danger)}
-.success{color:var(--success)}
-
-/* ---- status badges ---- */
-.badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;font-size:.74rem;font-weight:600;white-space:nowrap;letter-spacing:.02em}
-.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
-.Reported{background:rgba(251,191,36,.13);color:var(--s-reported)}
-.Acknowledged{background:rgba(56,189,248,.13);color:var(--s-ack)}
-.InProgress{background:rgba(167,139,250,.14);color:var(--s-prog)}
-.Resolved{background:rgba(52,211,153,.13);color:var(--s-done)}
-
-/* ---- scroll reveal (only hides things when JS is running) ---- */
 .js [data-reveal]{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
 .js [data-reveal].in{opacity:1;transform:none}
-
-#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(90px);opacity:0;pointer-events:none;background:#0b1626;border:1px solid var(--line2);
-  color:#fff;padding:12px 22px;border-radius:10px;transition:transform .3s;z-index:99;box-shadow:0 12px 30px rgba(0,0,0,.5);font-size:.9rem}
-#toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
   .js [data-reveal]{opacity:1;transform:none}
   .topo-lit,.glow{display:none}
 }
-
 
 body{display:block}
 .topnav{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
@@ -179,6 +135,40 @@ body{display:block}
 .popup .status{font-weight:700}
 .popup small{color:var(--muted)}
 
+/* ---- Civic AI Floating Widget ---- */
+.ai-fab{
+  position:fixed;right:24px;bottom:34px;z-index:40;
+  display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:99px;
+  background:var(--teal);color:#04211d;border:0;font-weight:700;font-size:.9rem;cursor:pointer;
+  box-shadow:0 10px 28px rgba(45,212,191,.35);transition:transform .2s,background .2s;
+}
+.ai-fab:hover{background:#5eead4;transform:translateY(-2px)}
+
+.ai-drawer{
+  position:fixed;right:24px;bottom:92px;z-index:45;width:min(380px,calc(100vw - 32px));
+  background:#0a1626;border:1px solid rgba(45,212,191,.4);border-radius:14px;
+  box-shadow:0 24px 60px rgba(0,0,0,.75);display:none;flex-direction:column;overflow:hidden;
+}
+.ai-drawer.open{display:flex;animation:pop .2s ease}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.ai-head{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;
+  background:rgba(45,212,191,.1);border-bottom:1px solid var(--line)}
+.ai-head span{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:600}
+.ai-head button{background:none;border:0;color:var(--muted);font-size:1.3rem;cursor:pointer;line-height:1}
+.ai-head button:hover{color:#fff}
+.ai-msgs{padding:14px;max-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;font-size:.88rem}
+.ai-msg{padding:10px 12px;border-radius:10px;line-height:1.45}
+.ai-msg.bot{background:rgba(255,255,255,.06);color:var(--ink);align-self:flex-start}
+.ai-msg.user{background:rgba(45,212,191,.16);color:#fff;border:1px solid rgba(45,212,191,.3);align-self:flex-end}
+.ai-chips{display:flex;gap:6px;flex-wrap:wrap;padding:0 14px 10px}
+.ai-chip{font-family:var(--mono);font-size:10px;padding:4px 9px;border-radius:99px;border:1px solid var(--line2);
+  background:rgba(255,255,255,.03);color:var(--muted);cursor:pointer;transition:all .15s}
+.ai-chip:hover{border-color:var(--teal);color:var(--teal)}
+.ai-form{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--line);background:rgba(0,0,0,.2)}
+.ai-form input{flex:1;padding:9px 12px;border-radius:8px;border:1px solid var(--line2);background:rgba(255,255,255,.05);color:#fff;font-size:.88rem;outline:none}
+.ai-form input:focus{border-color:var(--teal)}
+.ai-form button{padding:9px 14px;border-radius:8px;border:0;background:var(--teal);color:#04211d;font-weight:700;font-size:.85rem;cursor:pointer}
+.ai-form button:disabled{opacity:.5;cursor:not-allowed}
 
 @media(max-width:600px){.brand-logo{height:78px;max-width:min(390px,72vw)}}
 </style>
@@ -187,8 +177,6 @@ body{display:block}
   var root=document.documentElement;
   root.classList.add('js');
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // cursor light for the background contour lines (very subtle)
   if(!reduce){
     var raf=0,px=-400,py=-400;
     addEventListener('pointermove',function(e){
@@ -198,8 +186,6 @@ body{display:block}
       });
     },{passive:true});
   }
-
-  // fade-up on scroll
   var io=null;
   function reveal(scope){
     var els=(scope||document).querySelectorAll('[data-reveal]:not(.in)');
@@ -209,26 +195,9 @@ body{display:block}
     },{threshold:.06});
     els.forEach(function(e){io.observe(e)});
   }
-
-  // numbers count up once
-  function countUp(scope){
-    (scope||document).querySelectorAll('[data-count]:not([data-done])').forEach(function(el){
-      el.setAttribute('data-done','1');
-      var end=parseFloat(el.getAttribute('data-count'))||0, suf=el.getAttribute('data-suffix')||'';
-      if(reduce||end===0){el.textContent=end+suf;return;}
-      var t0=null,dur=800;
-      function step(t){
-        if(!t0)t0=t; var p=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-p,3);
-        el.textContent=Math.round(end*e)+suf;
-        if(p<1)requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-    });
-  }
-  window.CS={reveal:reveal,countUp:countUp};
-  document.addEventListener('DOMContentLoaded',function(){reveal();countUp();});
+  window.CS={reveal:reveal};
+  document.addEventListener('DOMContentLoaded',function(){reveal();});
 })();
-
 </script>
 </head>
 <body>
@@ -268,21 +237,39 @@ body{display:block}
 </div>
 </div>
 
+<!-- Floating Civic AI Helper -->
+<button type="button" class="ai-fab" id="aiToggleBtn">✨ Ask Civic AI</button>
+<div class="ai-drawer" id="aiDrawer">
+  <div class="ai-head">
+    <span>✨ CivicSnap Helper</span>
+    <button type="button" id="aiCloseBtn" title="Close">&times;</button>
+  </div>
+  <div class="ai-msgs" id="aiMsgs">
+    <div class="ai-msg bot">Hi! Ask me which category to select for a civic issue, what report statuses mean, or which Bengaluru agency handles it.</div>
+  </div>
+  <div class="ai-chips">
+    <button type="button" class="ai-chip" data-q="Which category fits a broken streetlight?">Broken streetlight?</button>
+    <button type="button" class="ai-chip" data-q="What do the report statuses mean?">Status meanings?</button>
+    <button type="button" class="ai-chip" data-q="Who handles water pipe leaks in Bengaluru?">Water leak agency?</button>
+  </div>
+  <form class="ai-form" id="aiForm">
+    <input type="text" id="aiInput" placeholder="Ask a civic question..." maxlength="300" required>
+    <button type="submit" id="aiSendBtn">Send</button>
+  </form>
+</div>
+
 <script>
-    // ---------- Must be logged in as a citizen ----------
     var token = localStorage.getItem("userToken");
     var currentUser = localStorage.getItem("user");
     if (!token || !currentUser) {
         window.location.href = "citizen.html";
     }
 
-    // ---------- Logout ----------
     document.getElementById("logoutBtn").addEventListener("click", function () {
         localStorage.removeItem("user");
         localStorage.removeItem("userToken");
     });
 
-    // Make text safe before putting it inside HTML
     function esc(text) {
         return String(text == null ? "" : text).replace(/[&<>"']/g, function (c) {
             return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -295,10 +282,8 @@ body{display:block}
         "In Progress": "#7c3aed",
         "Resolved": "#15803d"
     };
-    // brighter tones for text on the dark popup
     var STATUS_TEXT = { "Reported": "#fb923c", "Acknowledged": "#60a5fa", "In Progress": "#a78bfa", "Resolved": "#34d399" };
 
-    // A round coloured pin for each status
     function makeIcon(color) {
         return L.divIcon({
             className: "",
@@ -310,7 +295,6 @@ body{display:block}
         });
     }
 
-    // ---------- Build the map ----------
     var map = L.map("map").setView([12.9720, 77.5960], 13);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -318,7 +302,6 @@ body{display:block}
         maxZoom: 19
     }).addTo(map);
 
-    // one layer per status so the legend buttons can show / hide them
     var layers = {};
     Object.keys(STATUS_COLORS).forEach(function (s) { layers[s] = L.layerGroup().addTo(map); });
 
@@ -330,7 +313,6 @@ body{display:block}
         });
     });
 
-    // ---------- Load ALL reports from the database and drop a pin for each ----------
     fetch("/api/reports", { headers: { Authorization: "Bearer " + token } })
         .then(function (response) {
             if (response.status === 401) {
@@ -351,7 +333,6 @@ body{display:block}
                 var loc = report.location || {};
                 if (counts[report.status] != null) counts[report.status]++;
 
-                // a report with no pin cannot be drawn on the map
                 if (loc.lat == null || loc.lng == null) { skipped++; continue; }
 
                 var marker = L.marker([loc.lat, loc.lng], {
@@ -376,7 +357,6 @@ body{display:block}
                 map.fitBounds(positions, { padding: [40, 40], maxZoom: 16 });
             }
 
-            // header numbers + legend counts
             document.getElementById("statTotal").textContent = reports.length;
             document.getElementById("statDone").textContent = counts["Resolved"];
             document.getElementById("statOpen").textContent = reports.length - counts["Resolved"];
@@ -392,6 +372,67 @@ body{display:block}
             console.error("Could not load reports:", error);
             document.getElementById("subtitle").textContent = "Could not load reports. Is the server running?";
         });
+
+    // ---------- Civic AI Helper Logic ----------
+    var aiDrawer = document.getElementById("aiDrawer");
+    var aiMsgs = document.getElementById("aiMsgs");
+    var aiInput = document.getElementById("aiInput");
+    var aiSendBtn = document.getElementById("aiSendBtn");
+
+    document.getElementById("aiToggleBtn").addEventListener("click", function () {
+        aiDrawer.classList.toggle("open");
+        if (aiDrawer.classList.contains("open")) aiInput.focus();
+    });
+    document.getElementById("aiCloseBtn").addEventListener("click", function () {
+        aiDrawer.classList.remove("open");
+    });
+
+    function appendMsg(text, who) {
+        var div = document.createElement("div");
+        div.className = "ai-msg " + who;
+        div.textContent = text;
+        aiMsgs.appendChild(div);
+        aiMsgs.scrollTop = aiMsgs.scrollHeight;
+        return div;
+    }
+
+    async function askCivicAI(questionText) {
+        appendMsg(questionText, "user");
+        var thinking = appendMsg("Thinking...", "bot");
+        aiSendBtn.disabled = true;
+
+        try {
+            var res = await fetch("/api/citizen/ask-ai", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token
+                },
+                body: JSON.stringify({ question: questionText })
+            });
+            var data = await res.json();
+            if (!res.ok) throw new Error(data.error || "Could not get an answer");
+            thinking.textContent = data.reply;
+        } catch (err) {
+            thinking.textContent = err.message;
+        } finally {
+            aiSendBtn.disabled = false;
+        }
+    }
+
+    document.getElementById("aiForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var q = aiInput.value.trim();
+        if (!q) return;
+        aiInput.value = "";
+        askCivicAI(q);
+    });
+
+    document.querySelectorAll(".ai-chip").forEach(function (chip) {
+        chip.addEventListener("click", function () {
+            askCivicAI(chip.dataset.q);
+        });
+    });
 </script>
 </body>
 </html>
