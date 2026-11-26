@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Civic Snap - Community Map</title>
-<<<<<<< HEAD
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -267,115 +266,6 @@ body{display:block}
     <button type="button" class="lg" data-status="Resolved"><i class="dot" style="background:#15803d;color:#15803d"></i>Resolved <b id="c-Resolved">0</b></button>
   </div>
 </div>
-=======
-
-<!-- Leaflet: the map library -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-<style>
-body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background: #f5f7f7;
-}
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 8px;
-}
-h1 {
-    color: #0F6B72;
-    margin: 0;
-}
-.sub {
-    color: #5B7275;
-    font-size: 14px;
-    margin: 0 0 14px 0;
-}
-.header-actions {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    flex-wrap: wrap;
-}
-/* Base button styles */
-.btn {
-    padding: 10px 18px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    display: inline-block;
-    transition: background-color 0.2s ease, color 0.2s ease;
-    cursor: pointer;
-    font-size: 14px;
-}
-.add-btn {
-    background-color: #0F6B72;
-    color: white;
-    border: 1px solid #0F6B72;
-}
-.add-btn:hover { background-color: #09474c; }
-.mine-btn {
-    background-color: white;
-    color: #0F6B72;
-    border: 1px solid #0F6B72;
-}
-.mine-btn:hover { background-color: #e6f2f3; }
-.logout-btn {
-    background-color: transparent;
-    color: #d9534f;
-    border: 1px solid #d9534f;
-}
-.logout-btn:hover {
-    background-color: #d9534f;
-    color: white;
-}
-#map {
-    height: 70vh;
-    min-height: 380px;
-    width: 100%;
-    border-radius: 8px;
-    border: 1px solid #d7e2e2;
-}
-.legend {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    margin-top: 10px;
-    font-size: 13px;
-    color: #5B7275;
-}
-.legend span { display: flex; align-items: center; gap: 6px; }
-.dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; border: 2px solid white; box-shadow: 0 0 0 1px #999; }
-.popup img { width: 100%; max-height: 120px; object-fit: cover; border-radius: 6px; margin-bottom: 6px; }
-.popup .status { font-weight: bold; }
-.popup small { color: #666; }
-</style>
-</head>
-<body>
-
-<div class="header-container">
-    <h1>Community Map</h1>
-    <div class="header-actions">
-        <a href="add-issue.html" class="btn add-btn">+ Add Issue</a>
-        <a href="my_reports.html" class="btn mine-btn">My Reports</a>
-        <a href="login.html" class="btn logout-btn" id="logoutBtn">Logout</a>
-    </div>
-</div>
-<p class="sub" id="subtitle">Loading reports...</p>
-
-<div id="map"></div>
-
-<div class="legend">
-    <span><i class="dot" style="background:#E8833A"></i> Reported</span>
-    <span><i class="dot" style="background:#2563eb"></i> Acknowledged</span>
-    <span><i class="dot" style="background:#7c3aed"></i> In Progress</span>
-    <span><i class="dot" style="background:#15803d"></i> Resolved</span>
->>>>>>> a12e49202c447957ad3c719bcc36d4ecd507ca69
 </div>
 
 <script>
@@ -405,22 +295,15 @@ h1 {
         "In Progress": "#7c3aed",
         "Resolved": "#15803d"
     };
-<<<<<<< HEAD
     // brighter tones for text on the dark popup
     var STATUS_TEXT = { "Reported": "#fb923c", "Acknowledged": "#60a5fa", "In Progress": "#a78bfa", "Resolved": "#34d399" };
-=======
->>>>>>> a12e49202c447957ad3c719bcc36d4ecd507ca69
 
     // A round coloured pin for each status
     function makeIcon(color) {
         return L.divIcon({
             className: "",
             html: '<div style="width:22px;height:22px;border-radius:50%;background:' + color +
-<<<<<<< HEAD
                   ';border:3px solid white;box-shadow:0 0 0 4px ' + color + '33,0 2px 8px rgba(0,0,0,0.5);"></div>',
-=======
-                  ';border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.4);"></div>',
->>>>>>> a12e49202c447957ad3c719bcc36d4ecd507ca69
             iconSize: [22, 22],
             iconAnchor: [11, 11],
             popupAnchor: [0, -11]
@@ -435,7 +318,6 @@ h1 {
         maxZoom: 19
     }).addTo(map);
 
-<<<<<<< HEAD
     // one layer per status so the legend buttons can show / hide them
     var layers = {};
     Object.keys(STATUS_COLORS).forEach(function (s) { layers[s] = L.layerGroup().addTo(map); });
@@ -448,8 +330,6 @@ h1 {
         });
     });
 
-=======
->>>>>>> a12e49202c447957ad3c719bcc36d4ecd507ca69
     // ---------- Load ALL reports from the database and drop a pin for each ----------
     fetch("/api/reports", { headers: { Authorization: "Bearer " + token } })
         .then(function (response) {
@@ -464,29 +344,19 @@ h1 {
         .then(function (reports) {
             var positions = [];
             var skipped = 0;
-<<<<<<< HEAD
             var counts = { "Reported": 0, "Acknowledged": 0, "In Progress": 0, "Resolved": 0 };
-=======
->>>>>>> a12e49202c447957ad3c719bcc36d4ecd507ca69
 
             for (var i = 0; i < reports.length; i++) {
                 var report = reports[i];
                 var loc = report.location || {};
-<<<<<<< HEAD
                 if (counts[report.status] != null) counts[report.status]++;
-=======
->>>>>>> a12e49202c447957ad3c719bcc36d4ecd507ca69
 
                 // a report with no pin cannot be drawn on the map
                 if (loc.lat == null || loc.lng == null) { skipped++; continue; }
 
                 var marker = L.marker([loc.lat, loc.lng], {
                     icon: makeIcon(STATUS_COLORS[report.status] || "#E8833A")
-<<<<<<< HEAD
                 }).addTo(layers[report.status] || layers["Reported"]);
-=======
-                }).addTo(map);
->>>>>>> a12e49202c447957ad3c719bcc36d4ecd507ca69
                 positions.push([loc.lat, loc.lng]);
 
                 var mine = report.reportedBy === currentUser ? " (you)" : "";
@@ -495,11 +365,7 @@ h1 {
                     (report.photo ? '<img src="' + esc(report.photo) + '" alt="Issue photo">' : "") +
                     "<b>" + esc(report.title) + "</b><br>" +
                     esc(report.category) + "<br>" +
-<<<<<<< HEAD
                     '<span class="status" style="color:' + (STATUS_TEXT[report.status] || "#e7eef6") + '">' + esc(report.status) + "</span><br>" +
-=======
-                    '<span class="status" style="color:' + (STATUS_COLORS[report.status] || "#333") + '">' + esc(report.status) + "</span><br>" +
->>>>>>> a12e49202c447957ad3c719bcc36d4ecd507ca69
                     "<small>" + esc((report.location && report.location.address) || "") + "</small><br>" +
                     "<small>Reported by " + esc(report.reportedBy) + mine + "</small>" +
                     "</div>"
@@ -510,15 +376,12 @@ h1 {
                 map.fitBounds(positions, { padding: [40, 40], maxZoom: 16 });
             }
 
-<<<<<<< HEAD
             // header numbers + legend counts
             document.getElementById("statTotal").textContent = reports.length;
             document.getElementById("statDone").textContent = counts["Resolved"];
             document.getElementById("statOpen").textContent = reports.length - counts["Resolved"];
             Object.keys(counts).forEach(function (s) { document.getElementById("c-" + s).textContent = counts[s]; });
 
-=======
->>>>>>> a12e49202c447957ad3c719bcc36d4ecd507ca69
             var text = reports.length + (reports.length === 1 ? " issue" : " issues") + " reported by the community";
             if (skipped > 0) text += " (" + skipped + " without a map pin not shown)";
             document.getElementById("subtitle").textContent = reports.length === 0
@@ -530,9 +393,5 @@ h1 {
             document.getElementById("subtitle").textContent = "Could not load reports. Is the server running?";
         });
 </script>
-<<<<<<< HEAD
-=======
-
->>>>>>> a12e49202c447957ad3c719bcc36d4ecd507ca69
 </body>
 </html>

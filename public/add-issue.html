@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<<<<<<< HEAD
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Civic Snap - Report an Issue</title>
@@ -262,300 +261,6 @@ footer{text-align:center;padding:24px;color:var(--dim);font-family:var(--mono);f
   <div class="report-card panel hud" data-reveal style="--d:.08s">
     <form id="reportForm">
       <div class="step">01 · Category</div>
-=======
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Civic Snap - Report an Issue</title>
-
-  <!-- Leaflet: the map library used for the "drop a pin" map -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    }
-
-    body {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f766e 100%);
-      color: #f8fafc;
-      padding: 24px 20px;
-    }
-
-    /* Container Card */
-    .report-card {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 24px;
-      padding: 36px 32px;
-      width: 100%;
-      max-width: 580px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    }
-
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: #38bdf8;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      margin-bottom: 20px;
-      padding: 8px 14px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transition: all 0.25s ease;
-    }
-
-    .back-btn:hover {
-      background: rgba(255, 255, 255, 0.12);
-      transform: translateY(-1px);
-    }
-
-    h2 {
-      font-size: 1.8rem;
-      font-weight: 700;
-      background: linear-gradient(to right, #38bdf8, #2dd4bf);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 6px;
-    }
-
-    .subtitle {
-      color: #94a3b8;
-      font-size: 0.95rem;
-      margin-bottom: 24px;
-    }
-
-    label {
-      display: block;
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: #cbd5e1;
-      margin: 18px 0 8px;
-    }
-
-    input[type="text"],
-    textarea,
-    input[type="file"] {
-      width: 100%;
-      padding: 12px 14px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(255, 255, 255, 0.08);
-      color: #ffffff;
-      font-size: 0.95rem;
-      outline: none;
-      transition: border-color 0.2s ease;
-    }
-
-    input[type="text"]:focus,
-    textarea:focus {
-      border-color: #38bdf8;
-    }
-
-    textarea {
-      resize: vertical;
-    }
-
-    .char-count {
-      color: #94a3b8;
-      font-size: 0.8rem;
-      text-align: right;
-      margin-top: 4px;
-    }
-
-    /* Category Buttons */
-    .categories {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .category {
-      padding: 10px 16px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.05);
-      color: #f8fafc;
-      font-weight: 500;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .category:hover {
-      background: rgba(255, 255, 255, 0.12);
-    }
-
-    .category.selected {
-      background: #2563eb;
-      border-color: #2563eb;
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
-    }
-
-    /* Severity Radio Controls */
-    .severity {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      background: rgba(255, 255, 255, 0.04);
-      padding: 12px 16px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .severity label {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin: 0;
-      cursor: pointer;
-      font-weight: 500;
-      color: #e2e8f0;
-    }
-
-    /* Image Preview */
-    #preview {
-      margin-top: 12px;
-      background: rgba(0, 0, 0, 0.2);
-      border: 1px dashed rgba(255, 255, 255, 0.2);
-      border-radius: 12px;
-      padding: 12px;
-      text-align: center;
-    }
-
-    #preview img {
-      max-width: 100%;
-      max-height: 220px;
-      border-radius: 8px;
-      display: block;
-      margin: 0 auto;
-    }
-
-    .remove {
-      margin-top: 10px;
-      padding: 6px 14px;
-      background: rgba(248, 113, 113, 0.2);
-      color: #f87171;
-      border: 1px solid rgba(248, 113, 113, 0.4);
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.85rem;
-      transition: background 0.2s ease;
-    }
-
-    .remove:hover {
-      background: rgba(248, 113, 113, 0.35);
-    }
-
-    /* Submit Button */
-    button[type="submit"] {
-      width: 100%;
-      margin-top: 28px;
-      padding: 14px;
-      background: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
-      transition: all 0.25s ease;
-    }
-
-    button[type="submit"]:hover {
-      background: #1d4ed8;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
-    }
-
-    /* Response Message */
-    #message {
-      margin-top: 18px;
-      padding: 12px;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      text-align: center;
-    }
-
-    .success {
-      background: rgba(52, 211, 153, 0.15);
-      color: #34d399;
-      border: 1px solid rgba(52, 211, 153, 0.3);
-    }
-
-    .error {
-      background: rgba(248, 113, 113, 0.15);
-      color: #f87171;
-      border: 1px solid rgba(248, 113, 113, 0.3);
-    }
-
-    footer {
-      text-align: center;
-      padding: 24px;
-      color: #94a3b8;
-      font-size: 0.85rem;
-    }
-
-    /* Map pin picker */
-    #pickMap {
-      height: 240px;
-      width: 100%;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      z-index: 0;
-    }
-
-    .map-hint {
-      color: #94a3b8;
-      font-size: 0.82rem;
-      margin-top: 6px;
-    }
-
-    .gps-btn {
-      margin-top: 10px;
-      padding: 9px 14px;
-      background: rgba(255, 255, 255, 0.08);
-      color: #f8fafc;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 0.88rem;
-      cursor: pointer;
-    }
-
-    .gps-btn:hover {
-      background: rgba(255, 255, 255, 0.16);
-    }
-  </style>
-</head>
-
-<body>
-  <div class="report-card">
-    <a href="/citizen_report.html" class="back-btn">&larr; Back to Map</a>
-
-    <h2>Report an Issue</h2>
-    <p class="subtitle">Choose an issue type, add a photo, and tell us where it is located.</p>
-
-    <form id="reportForm">
-      <label>Issue Category</label>
->>>>>>> a12e49202c447957ad3c719bcc36d4ecd507ca69
       <div class="categories">
         <button type="button" class="category selected" data-category="Road &amp; Potholes">Road &amp; Potholes</button>
         <button type="button" class="category" data-category="Waste Management">Waste Management</button>
@@ -566,7 +271,6 @@ footer{text-align:center;padding:24px;color:var(--dim);font-family:var(--mono);f
         <button type="button" class="category" data-category="Other">Other</button>
       </div>
 
-<<<<<<< HEAD
       <div class="step">02 · Photo &amp; details</div>
       <label class="fl" for="photo">Upload a Photo</label>
       <input type="file" id="photo" accept="image/*">
@@ -581,59 +285,27 @@ footer{text-align:center;padding:24px;color:var(--dim);font-family:var(--mono);f
       <input type="text" id="location" placeholder="Enter street name or landmark">
 
       <label class="fl">Pin the exact spot</label>
-=======
-      <label for="photo">Upload a Photo</label>
-      <input type="file" id="photo" accept="image/*">
-
-      <div id="preview" hidden></div>
-
-      <label for="description">Description</label>
-      <textarea id="description" rows="4" maxlength="300" placeholder="Describe the problem..."></textarea>
-      <div class="char-count"><span id="count">0</span>/300 characters</div>
-
-      <label for="location">Location</label>
-      <input type="text" id="location" placeholder="Enter street name or landmark">
-
-      <label>Pin the exact spot</label>
->>>>>>> a12e49202c447957ad3c719bcc36d4ecd507ca69
       <div id="pickMap"></div>
       <div class="map-hint" id="mapHint">Tap the map to drop a pin, or use your current location. You can drag the pin to adjust it.</div>
       <button type="button" class="gps-btn" id="useGpsBtn">&#128205; Use my current location</button>
 
-<<<<<<< HEAD
       <div class="step">04 · Severity</div>
       <div class="severity">
         <label class="sev sev-low"><input type="radio" name="severity" value="Low" checked><span>Low</span></label>
         <label class="sev sev-med"><input type="radio" name="severity" value="Medium"><span>Medium</span></label>
         <label class="sev sev-high"><input type="radio" name="severity" value="High"><span>High</span></label>
-=======
-      <label>Severity</label>
-      <div class="severity">
-        <label><input type="radio" name="severity" value="Low" checked> Low</label>
-        <label><input type="radio" name="severity" value="Medium"> Medium</label>
-        <label><input type="radio" name="severity" value="High"> High</label>
->>>>>>> a12e49202c447957ad3c719bcc36d4ecd507ca69
       </div>
 
       <button type="submit">Submit Report</button>
       <div id="message" hidden aria-live="polite"></div>
     </form>
   </div>
-<<<<<<< HEAD
 </div>
 
 <footer>Civic Snap - Making our neighbourhoods better.</footer>
 </div>
 
 <script>
-=======
-
-  <footer>
-    Civic Snap - Making our neighbourhoods better.
-  </footer>
-
-  <script>
->>>>>>> a12e49202c447957ad3c719bcc36d4ecd507ca69
     // ---------- Who is reporting? (must be logged in as a citizen) ----------
     const token = localStorage.getItem("userToken");
     if (!token || !localStorage.getItem("user")) {
@@ -843,8 +515,4 @@ footer{text-align:center;padding:24px;color:var(--dim);font-family:var(--mono);f
     });
   </script>
 </body>
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> a12e49202c447957ad3c719bcc36d4ecd507ca69
