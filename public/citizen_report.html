@@ -23,74 +23,171 @@ body {
     gap: 10px;
     margin-bottom: 8px;
 }
-h1 {
-    color: #0F6B72;
-    margin: 0;
+@keyframes pageIn{from{opacity:0}to{opacity:1}}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:inherit}
+::selection{background:rgba(45,212,191,.35)}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:8px}
+::-webkit-scrollbar-track{background:transparent}
+
+.topo,.topo-lit{position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--topo) center/cover no-repeat}
+.topo{opacity:.07}
+.topo-lit{opacity:.5;
+  -webkit-mask-image:radial-gradient(circle 230px at var(--mx) var(--my),#000 0,transparent 100%);
+          mask-image:radial-gradient(circle 230px at var(--mx) var(--my),#000 0,transparent 100%)}
+.glow{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(420px circle at var(--mx) var(--my),rgba(45,212,191,.055),transparent 70%)}
+.page{position:relative;z-index:1}
+
+.display{font-family:var(--display);text-transform:uppercase;font-weight:700;letter-spacing:-.005em;line-height:.98}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);display:flex;align-items:center;gap:8px}
+.eyebrow::before{content:"";width:18px;height:1px;background:var(--teal)}
+.mono{font-family:var(--mono)}
+.sub{color:var(--muted);font-size:.95rem}
+
+.hud{position:relative}
+.hud::before{content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;opacity:.5;transition:opacity .3s ease;
+  background:
+   linear-gradient(var(--teal),var(--teal)) top left/14px 1px no-repeat,
+   linear-gradient(var(--teal),var(--teal)) top left/1px 14px no-repeat,
+   linear-gradient(var(--teal),var(--teal)) top right/14px 1px no-repeat,
+   linear-gradient(var(--teal),var(--teal)) top right/1px 14px no-repeat,
+   linear-gradient(var(--teal),var(--teal)) bottom left/14px 1px no-repeat,
+   linear-gradient(var(--teal),var(--teal)) bottom left/1px 14px no-repeat,
+   linear-gradient(var(--teal),var(--teal)) bottom right/14px 1px no-repeat,
+   linear-gradient(var(--teal),var(--teal)) bottom right/1px 14px no-repeat}
+.hud:hover::before{opacity:1}
+
+.brand{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;font-size:1.15rem}
+.brand-logo{display:block;width:auto;height:104px;max-width:520px;object-fit:contain;flex:0 0 auto}
+.mark{width:18px;height:18px;border:1.5px solid var(--teal);border-radius:50%;position:relative;flex-shrink:0}
+.mark::before,.mark::after{content:"";position:absolute;background:var(--teal)}
+.mark::before{left:50%;top:-4px;bottom:-4px;width:1.5px;transform:translateX(-50%)}
+.mark::after{top:50%;left:-4px;right:-4px;height:1.5px;transform:translateY(-50%)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:10px;
+  border:1px solid var(--line2);background:rgba(255,255,255,.06);color:var(--ink);font-weight:600;font-size:.9rem;
+  cursor:pointer;text-decoration:none;transition:background .2s ease,transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+.btn:hover{background:rgba(255,255,255,.12);transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn.small{padding:6px 12px;font-size:.8rem;border-radius:8px}
+.btn.primary{background:var(--teal);border-color:var(--teal);color:#04211d;box-shadow:0 6px 20px rgba(45,212,191,.22)}
+.btn.primary:hover{background:#5eead4;box-shadow:0 8px 26px rgba(45,212,191,.34)}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+
+.js [data-reveal]{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.js [data-reveal].in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .js [data-reveal]{opacity:1;transform:none}
+  .topo-lit,.glow{display:none}
 }
-.sub {
-    color: #5B7275;
-    font-size: 14px;
-    margin: 0 0 14px 0;
+
+body{display:block}
+.topnav{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:14px clamp(16px,4vw,48px);background:rgba(6,14,26,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.topnav nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.topnav nav a.nl{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--muted);padding:8px 12px;border-radius:8px;transition:color .2s,background .2s}
+.topnav nav a.nl:hover{color:#fff;background:rgba(255,255,255,.06)}
+.topnav nav a.nl.on{color:var(--teal)}
+.topnav .logout{color:var(--danger)!important}
+.wrap{max-width:1180px;margin:0 auto;padding:34px clamp(16px,4vw,48px) 60px}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:24px}
+.head h1{font-size:clamp(2.2rem,5vw,3.6rem);margin:10px 0 6px}
+.mini-stats{display:flex;gap:12px;flex-wrap:wrap}
+.ms{min-width:104px;padding:12px 16px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+.ms small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.ms b{font-family:var(--display);font-size:1.8rem;line-height:1.1}
+
+.mapframe{position:relative;border-radius:12px;padding:6px;border:1px solid var(--line);background:var(--panel)}
+#map{height:68vh;min-height:380px;width:100%;border-radius:8px;background:#0a1626}
+.leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.92) contrast(.88) saturate(.55)}
+.leaflet-container{font-family:var(--body)}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#0c1828;color:#e7eef6;border:1px solid var(--line2);box-shadow:0 12px 30px rgba(0,0,0,.5)}
+.leaflet-popup-content-wrapper{border-radius:12px}
+.leaflet-popup-content{margin:12px 14px;font-size:13px;line-height:1.5}
+.leaflet-container a.leaflet-popup-close-button{color:var(--muted)}
+.leaflet-control-attribution{background:rgba(6,14,26,.7)!important;color:var(--dim)!important}
+.leaflet-control-attribution a{color:var(--muted)!important}
+.leaflet-bar a{background:#0c1828;color:#fff;border-bottom:1px solid var(--line)}
+.leaflet-bar a:hover{background:#15263b}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.lg{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:99px;border:1px solid var(--line2);background:transparent;color:var(--ink);cursor:pointer;
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;transition:all .2s}
+.lg:hover{background:rgba(255,255,255,.06)}
+.lg.off{opacity:.4}
+.lg .dot{width:10px;height:10px;border-radius:50%;box-shadow:0 0 10px currentColor}
+.lg b{color:var(--muted);font-weight:500}
+.popup img{width:100%;max-height:120px;object-fit:cover;border-radius:6px;margin-bottom:8px}
+.popup .status{font-weight:700}
+.popup small{color:var(--muted)}
+
+/* ---- Civic AI Floating Widget ---- */
+.ai-fab{
+  position:fixed;right:24px;bottom:34px;z-index:40;
+  display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:99px;
+  background:var(--teal);color:#04211d;border:0;font-weight:700;font-size:.9rem;cursor:pointer;
+  box-shadow:0 10px 28px rgba(45,212,191,.35);transition:transform .2s,background .2s;
 }
-.header-actions {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    flex-wrap: wrap;
+.ai-fab:hover{background:#5eead4;transform:translateY(-2px)}
+
+.ai-drawer{
+  position:fixed;right:24px;bottom:92px;z-index:45;width:min(380px,calc(100vw - 32px));
+  background:#0a1626;border:1px solid rgba(45,212,191,.4);border-radius:14px;
+  box-shadow:0 24px 60px rgba(0,0,0,.75);display:none;flex-direction:column;overflow:hidden;
 }
-/* Base button styles */
-.btn {
-    padding: 10px 18px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    display: inline-block;
-    transition: background-color 0.2s ease, color 0.2s ease;
-    cursor: pointer;
-    font-size: 14px;
-}
-.add-btn {
-    background-color: #0F6B72;
-    color: white;
-    border: 1px solid #0F6B72;
-}
-.add-btn:hover { background-color: #09474c; }
-.mine-btn {
-    background-color: white;
-    color: #0F6B72;
-    border: 1px solid #0F6B72;
-}
-.mine-btn:hover { background-color: #e6f2f3; }
-.logout-btn {
-    background-color: transparent;
-    color: #d9534f;
-    border: 1px solid #d9534f;
-}
-.logout-btn:hover {
-    background-color: #d9534f;
-    color: white;
-}
-#map {
-    height: 70vh;
-    min-height: 380px;
-    width: 100%;
-    border-radius: 8px;
-    border: 1px solid #d7e2e2;
-}
-.legend {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    margin-top: 10px;
-    font-size: 13px;
-    color: #5B7275;
-}
-.legend span { display: flex; align-items: center; gap: 6px; }
-.dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; border: 2px solid white; box-shadow: 0 0 0 1px #999; }
-.popup img { width: 100%; max-height: 120px; object-fit: cover; border-radius: 6px; margin-bottom: 6px; }
-.popup .status { font-weight: bold; }
-.popup small { color: #666; }
+.ai-drawer.open{display:flex;animation:pop .2s ease}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.ai-head{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;
+  background:rgba(45,212,191,.1);border-bottom:1px solid var(--line)}
+.ai-head span{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:600}
+.ai-head button{background:none;border:0;color:var(--muted);font-size:1.3rem;cursor:pointer;line-height:1}
+.ai-head button:hover{color:#fff}
+.ai-msgs{padding:14px;max-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;font-size:.88rem}
+.ai-msg{padding:10px 12px;border-radius:10px;line-height:1.45}
+.ai-msg.bot{background:rgba(255,255,255,.06);color:var(--ink);align-self:flex-start}
+.ai-msg.user{background:rgba(45,212,191,.16);color:#fff;border:1px solid rgba(45,212,191,.3);align-self:flex-end}
+.ai-chips{display:flex;gap:6px;flex-wrap:wrap;padding:0 14px 10px}
+.ai-chip{font-family:var(--mono);font-size:10px;padding:4px 9px;border-radius:99px;border:1px solid var(--line2);
+  background:rgba(255,255,255,.03);color:var(--muted);cursor:pointer;transition:all .15s}
+.ai-chip:hover{border-color:var(--teal);color:var(--teal)}
+.ai-form{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--line);background:rgba(0,0,0,.2)}
+.ai-form input{flex:1;padding:9px 12px;border-radius:8px;border:1px solid var(--line2);background:rgba(255,255,255,.05);color:#fff;font-size:.88rem;outline:none}
+.ai-form input:focus{border-color:var(--teal)}
+.ai-form button{padding:9px 14px;border-radius:8px;border:0;background:var(--teal);color:#04211d;font-weight:700;font-size:.85rem;cursor:pointer}
+.ai-form button:disabled{opacity:.5;cursor:not-allowed}
+
+@media(max-width:600px){.brand-logo{height:78px;max-width:min(390px,72vw)}}
 </style>
+<script>
+(function(){
+  var root=document.documentElement;
+  root.classList.add('js');
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce){
+    var raf=0,px=-400,py=-400;
+    addEventListener('pointermove',function(e){
+      px=e.clientX;py=e.clientY;
+      if(!raf)raf=requestAnimationFrame(function(){
+        root.style.setProperty('--mx',px+'px');root.style.setProperty('--my',py+'px');raf=0;
+      });
+    },{passive:true});
+  }
+  var io=null;
+  function reveal(scope){
+    var els=(scope||document).querySelectorAll('[data-reveal]:not(.in)');
+    if(reduce||!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+    io=io||new IntersectionObserver(function(list){
+      list.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});
+    },{threshold:.06});
+    els.forEach(function(e){io.observe(e)});
+  }
+  window.CS={reveal:reveal};
+  document.addEventListener('DOMContentLoaded',function(){reveal();});
+})();
+</script>
 </head>
 <body>
 
@@ -113,21 +210,39 @@ h1 {
     <span><i class="dot" style="background:#15803d"></i> Resolved</span>
 </div>
 
+<!-- Floating Civic AI Helper -->
+<button type="button" class="ai-fab" id="aiToggleBtn">✨ Ask Civic AI</button>
+<div class="ai-drawer" id="aiDrawer">
+  <div class="ai-head">
+    <span>✨ CivicSnap Helper</span>
+    <button type="button" id="aiCloseBtn" title="Close">&times;</button>
+  </div>
+  <div class="ai-msgs" id="aiMsgs">
+    <div class="ai-msg bot">Hi! Ask me which category to select for a civic issue, what report statuses mean, or which Bengaluru agency handles it.</div>
+  </div>
+  <div class="ai-chips">
+    <button type="button" class="ai-chip" data-q="Which category fits a broken streetlight?">Broken streetlight?</button>
+    <button type="button" class="ai-chip" data-q="What do the report statuses mean?">Status meanings?</button>
+    <button type="button" class="ai-chip" data-q="Who handles water pipe leaks in Bengaluru?">Water leak agency?</button>
+  </div>
+  <form class="ai-form" id="aiForm">
+    <input type="text" id="aiInput" placeholder="Ask a civic question..." maxlength="300" required>
+    <button type="submit" id="aiSendBtn">Send</button>
+  </form>
+</div>
+
 <script>
-    // ---------- Must be logged in as a citizen ----------
     var token = localStorage.getItem("userToken");
     var currentUser = localStorage.getItem("user");
     if (!token || !currentUser) {
         window.location.href = "citizen.html";
     }
 
-    // ---------- Logout ----------
     document.getElementById("logoutBtn").addEventListener("click", function () {
         localStorage.removeItem("user");
         localStorage.removeItem("userToken");
     });
 
-    // Make text safe before putting it inside HTML
     function esc(text) {
         return String(text == null ? "" : text).replace(/[&<>"']/g, function (c) {
             return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -140,8 +255,8 @@ h1 {
         "In Progress": "#7c3aed",
         "Resolved": "#15803d"
     };
+    var STATUS_TEXT = { "Reported": "#fb923c", "Acknowledged": "#60a5fa", "In Progress": "#a78bfa", "Resolved": "#34d399" };
 
-    // A round coloured pin for each status
     function makeIcon(color) {
         return L.divIcon({
             className: "",
@@ -153,7 +268,6 @@ h1 {
         });
     }
 
-    // ---------- Build the map ----------
     var map = L.map("map").setView([12.9720, 77.5960], 13);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -161,7 +275,17 @@ h1 {
         maxZoom: 19
     }).addTo(map);
 
-    // ---------- Load ALL reports from the database and drop a pin for each ----------
+    var layers = {};
+    Object.keys(STATUS_COLORS).forEach(function (s) { layers[s] = L.layerGroup().addTo(map); });
+
+    document.querySelectorAll(".lg").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            var g = layers[btn.dataset.status];
+            if (map.hasLayer(g)) { map.removeLayer(g); btn.classList.add("off"); }
+            else { map.addLayer(g); btn.classList.remove("off"); }
+        });
+    });
+
     fetch("/api/reports", { headers: { Authorization: "Bearer " + token } })
         .then(function (response) {
             if (response.status === 401) {
@@ -180,7 +304,6 @@ h1 {
                 var report = reports[i];
                 var loc = report.location || {};
 
-                // a report with no pin cannot be drawn on the map
                 if (loc.lat == null || loc.lng == null) { skipped++; continue; }
 
                 var marker = L.marker([loc.lat, loc.lng], {
@@ -207,6 +330,11 @@ h1 {
                 map.fitBounds(positions, { padding: [40, 40], maxZoom: 16 });
             }
 
+            document.getElementById("statTotal").textContent = reports.length;
+            document.getElementById("statDone").textContent = counts["Resolved"];
+            document.getElementById("statOpen").textContent = reports.length - counts["Resolved"];
+            Object.keys(counts).forEach(function (s) { document.getElementById("c-" + s).textContent = counts[s]; });
+
             var text = reports.length + (reports.length === 1 ? " issue" : " issues") + " reported by the community";
             if (skipped > 0) text += " (" + skipped + " without a map pin not shown)";
             document.getElementById("subtitle").textContent = reports.length === 0
@@ -217,6 +345,67 @@ h1 {
             console.error("Could not load reports:", error);
             document.getElementById("subtitle").textContent = "Could not load reports. Is the server running?";
         });
+
+    // ---------- Civic AI Helper Logic ----------
+    var aiDrawer = document.getElementById("aiDrawer");
+    var aiMsgs = document.getElementById("aiMsgs");
+    var aiInput = document.getElementById("aiInput");
+    var aiSendBtn = document.getElementById("aiSendBtn");
+
+    document.getElementById("aiToggleBtn").addEventListener("click", function () {
+        aiDrawer.classList.toggle("open");
+        if (aiDrawer.classList.contains("open")) aiInput.focus();
+    });
+    document.getElementById("aiCloseBtn").addEventListener("click", function () {
+        aiDrawer.classList.remove("open");
+    });
+
+    function appendMsg(text, who) {
+        var div = document.createElement("div");
+        div.className = "ai-msg " + who;
+        div.textContent = text;
+        aiMsgs.appendChild(div);
+        aiMsgs.scrollTop = aiMsgs.scrollHeight;
+        return div;
+    }
+
+    async function askCivicAI(questionText) {
+        appendMsg(questionText, "user");
+        var thinking = appendMsg("Thinking...", "bot");
+        aiSendBtn.disabled = true;
+
+        try {
+            var res = await fetch("/api/citizen/ask-ai", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token
+                },
+                body: JSON.stringify({ question: questionText })
+            });
+            var data = await res.json();
+            if (!res.ok) throw new Error(data.error || "Could not get an answer");
+            thinking.textContent = data.reply;
+        } catch (err) {
+            thinking.textContent = err.message;
+        } finally {
+            aiSendBtn.disabled = false;
+        }
+    }
+
+    document.getElementById("aiForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var q = aiInput.value.trim();
+        if (!q) return;
+        aiInput.value = "";
+        askCivicAI(q);
+    });
+
+    document.querySelectorAll(".ai-chip").forEach(function (chip) {
+        chip.addEventListener("click", function () {
+            askCivicAI(chip.dataset.q);
+        });
+    });
 </script>
 
 </body>
