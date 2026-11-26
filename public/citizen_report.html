@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Civic Snap - Community Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+:root{--topo:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1000' preserveAspectRatio='xMidYMid slice'%3E%3Cg fill='none' stroke='%232dd4bf' stroke-width='1.2'%3E%3Cpath d='M377 295Q376 300 374 303Q373 307 370 310Q368 314 364 316Q361 319 358 321Q354 323 351 326Q348 328 344 331Q340 334 335 336Q330 338 324 338Q318 338 313 336Q308 334 304 331Q300 328 296 325Q292 322 288 319Q284 316 282 312Q279 308 279 304Q279 300 281 295Q283 291 286 288Q289 284 292 282Q295 279 299 276Q303 274 307 272Q312 271 316 270Q321 270 325 269Q330 268 334 267Q339 266 345 265Q352 264 358 265Q364 266 369 269Q374 272 376 277Q378 281 378 286Q378 291 377 295Z'/%3E%3Cpath d='M422 291Q420 300 417 307Q413 314 408 321Q404 327 397 332Q391 337 384 341Q377 346 371 351Q365 356 357 361Q349 367 339 370Q330 374 319 374Q308 374 298 370Q288 366 280 360Q272 355 264 350Q257 344 249 338Q242 332 237 324Q232 317 232 308Q231 300 235 292Q239 284 245 277Q251 270 257 265Q263 259 270 254Q278 249 286 247Q295 244 303 242Q312 241 321 240Q330 239 339 237Q349 235 361 233Q372 231 385 233Q397 234 407 240Q416 246 420 255Q424 264 424 274Q424 283 422 291Z'/%3E%3Cpath d='M467 287Q464 300 459 310Q454 321 447 331Q439 340 430 348Q420 355 410 362Q401 368 391 376Q382 383 370 391Q359 399 344 405Q330 410 313 410Q297 409 282 404Q268 398 256 390Q244 382 233 374Q221 366 210 357Q199 348 192 336Q184 325 184 312Q184 300 189 288Q195 276 204 266Q212 256 222 248Q231 239 242 232Q252 225 265 221Q278 217 291 215Q304 213 317 211Q330 210 344 206Q358 203 376 200Q393 198 412 200Q430 202 444 212Q458 221 464 234Q470 247 470 261Q470 275 467 287Z'/%3E%3Cpath d='M511 283Q507 300 501 314Q495 329 485 341Q475 354 463 363Q450 373 437 382Q424 391 411 400Q399 410 384 421Q369 432 349 439Q330 446 308 446Q286 445 267 438Q248 430 232 419Q216 409 201 398Q186 388 171 376Q157 364 147 348Q137 333 136 316Q136 300 144 284Q151 268 163 255Q174 242 186 231Q199 219 213 210Q227 201 244 195Q261 189 278 187Q295 185 312 183Q329 180 348 176Q367 172 391 168Q414 165 439 168Q463 171 481 183Q500 195 508 213Q516 230 516 249Q515 267 511 283Z'/%3E%3Cpath d='M556 279Q551 300 543 318Q536 336 523 351Q511 367 495 379Q480 392 463 402Q447 413 432 425Q416 438 397 451Q378 464 354 474Q330 483 303 482Q276 481 252 472Q228 462 208 449Q188 436 169 423Q150 409 132 394Q114 379 102 361Q89 342 89 321Q88 300 98 280Q107 261 121 244Q136 228 151 214Q166 199 184 188Q202 176 223 169Q244 162 265 159Q287 157 308 154Q329 151 353 146Q377 140 406 136Q435 131 465 135Q496 139 519 154Q542 169 552 191Q562 213 561 236Q561 259 556 279Z'/%3E%3Cpath d='M601 275Q595 300 586 321Q576 343 562 362Q547 380 528 395Q509 410 490 423Q471 436 452 450Q433 465 411 481Q388 497 359 508Q330 519 297 518Q265 517 236 506Q208 494 184 479Q160 463 138 447Q115 431 93 413Q71 395 57 373Q42 350 41 325Q40 300 52 276Q63 253 80 233Q97 213 116 197Q134 180 155 166Q177 152 202 144Q227 135 253 132Q279 128 304 125Q329 122 358 115Q386 109 421 103Q456 98 492 103Q529 107 556 125Q584 143 596 170Q608 196 607 224Q607 251 601 275Z'/%3E%3Cpath d='M646 271Q639 300 628 325Q617 350 600 372Q583 393 561 411Q539 428 516 443Q494 458 472 475Q450 492 424 511Q398 530 364 542Q330 555 292 554Q254 553 221 540Q187 526 160 508Q132 490 106 471Q80 453 54 432Q29 411 12 385Q-4 358 -5 329Q-6 300 6 272Q20 245 39 222Q59 199 80 180Q102 160 127 144Q151 128 180 118Q210 108 240 104Q270 100 300 96Q329 92 363 85Q396 77 436 71Q476 65 519 70Q562 75 594 97Q626 118 640 149Q654 179 653 211Q653 243 646 271Z'/%3E%3Cpath d='M691 267Q683 300 670 328Q658 357 639 382Q619 407 594 426Q569 446 543 463Q517 480 492 500Q467 519 437 541Q407 562 368 577Q330 591 287 590Q244 589 205 574Q167 559 136 538Q104 517 74 496Q44 474 15 451Q-13 427 -32 397Q-52 367 -53 333Q-54 300 -39 268Q-23 237 -1 211Q21 185 45 163Q69 140 98 122Q126 103 159 92Q193 81 227 76Q262 72 296 67Q329 63 367 54Q405 46 451 39Q497 32 546 38Q595 44 631 68Q668 92 684 127Q700 162 699 199Q698 235 691 267Z'/%3E%3Cpath d='M735 263Q727 300 713 332Q699 364 677 392Q655 420 627 442Q598 464 569 484Q540 503 512 525Q484 547 451 571Q417 595 373 611Q330 628 281 626Q233 625 190 608Q147 591 112 567Q76 544 43 520Q9 496 -23 469Q-56 443 -77 409Q-99 375 -101 337Q-102 300 -84 265Q-67 230 -42 200Q-17 171 10 146Q37 120 69 100Q101 79 138 66Q176 54 215 49Q254 43 292 38Q329 33 372 24Q414 14 466 6Q518 -1 573 5Q628 12 669 39Q710 66 728 106Q746 145 745 186Q744 227 735 263Z'/%3E%3Cpath d='M1299 695Q1296 700 1293 703Q1290 707 1287 710Q1285 713 1283 716Q1281 719 1278 722Q1275 725 1272 727Q1268 729 1264 731Q1259 733 1254 734Q1250 736 1244 737Q1238 738 1232 737Q1227 736 1222 733Q1217 731 1214 727Q1211 723 1209 719Q1207 715 1205 711Q1203 708 1202 704Q1200 700 1201 695Q1201 691 1204 687Q1207 684 1211 681Q1216 679 1220 677Q1224 675 1228 673Q1232 671 1236 670Q1240 668 1245 667Q1250 666 1255 666Q1260 665 1265 666Q1270 666 1276 667Q1282 668 1288 670Q1293 673 1297 677Q1301 681 1301 685Q1301 690 1299 695Z'/%3E%3Cpath d='M1346 691Q1341 700 1334 706Q1328 713 1323 719Q1319 725 1315 731Q1311 737 1305 743Q1300 748 1293 753Q1286 757 1277 761Q1269 764 1259 767Q1250 770 1239 772Q1228 773 1216 772Q1205 770 1196 765Q1187 760 1181 752Q1175 745 1171 737Q1167 730 1164 723Q1160 715 1157 707Q1154 700 1155 691Q1156 683 1161 676Q1167 669 1175 664Q1184 659 1192 656Q1200 652 1208 648Q1215 645 1223 641Q1231 638 1240 636Q1250 634 1259 634Q1269 633 1280 634Q1290 635 1301 637Q1313 639 1324 643Q1335 647 1342 655Q1349 663 1350 672Q1350 682 1346 691Z'/%3E%3Cpath d='M1392 686Q1385 700 1376 710Q1366 720 1359 729Q1352 737 1346 746Q1340 755 1332 764Q1325 772 1314 779Q1303 785 1291 791Q1278 796 1264 800Q1250 805 1233 807Q1217 809 1200 807Q1183 805 1170 797Q1156 789 1148 778Q1139 767 1133 756Q1128 745 1122 734Q1116 723 1112 711Q1108 700 1109 687Q1110 675 1118 665Q1127 654 1139 647Q1152 640 1164 634Q1176 629 1187 623Q1199 618 1210 613Q1222 608 1236 605Q1250 602 1264 601Q1279 601 1294 602Q1310 603 1326 606Q1343 609 1360 615Q1376 622 1387 633Q1397 645 1398 659Q1399 673 1392 686Z'/%3E%3Cpath d='M1439 682Q1429 700 1417 713Q1405 727 1395 738Q1386 750 1378 762Q1370 773 1359 784Q1349 796 1335 804Q1321 813 1304 820Q1287 827 1268 833Q1250 839 1228 842Q1206 845 1184 842Q1162 839 1144 829Q1126 819 1115 804Q1103 789 1095 774Q1088 759 1080 745Q1073 731 1067 715Q1061 700 1063 683Q1064 667 1076 653Q1087 639 1103 630Q1120 620 1136 613Q1152 606 1167 599Q1182 592 1198 585Q1213 578 1231 574Q1250 570 1269 569Q1288 569 1309 570Q1329 572 1352 576Q1374 579 1396 588Q1417 596 1432 612Q1446 627 1447 646Q1448 665 1439 682Z'/%3E%3Cpath d='M1485 678Q1473 700 1458 716Q1443 733 1431 748Q1419 762 1409 777Q1399 791 1387 805Q1374 819 1356 830Q1338 841 1318 850Q1297 859 1273 866Q1250 873 1223 877Q1196 881 1168 878Q1140 874 1118 861Q1096 848 1081 830Q1067 811 1058 793Q1048 774 1038 756Q1029 738 1022 719Q1015 700 1017 679Q1019 659 1033 642Q1047 624 1067 612Q1088 600 1108 591Q1128 583 1147 574Q1165 565 1185 557Q1205 548 1227 543Q1250 538 1274 537Q1298 537 1323 539Q1349 541 1377 545Q1405 550 1432 560Q1459 571 1477 590Q1494 609 1496 632Q1497 656 1485 678Z'/%3E%3Cpath d='M1532 673Q1518 700 1499 720Q1481 740 1467 757Q1453 775 1441 792Q1429 810 1414 826Q1398 843 1377 856Q1356 870 1331 880Q1306 890 1278 899Q1250 908 1217 912Q1185 917 1152 913Q1119 908 1092 893Q1065 877 1048 855Q1031 833 1020 811Q1008 789 997 767Q985 746 977 723Q968 700 971 675Q973 651 990 630Q1006 609 1031 595Q1056 581 1080 570Q1104 559 1126 549Q1149 538 1172 528Q1196 518 1223 512Q1250 506 1278 505Q1307 504 1338 507Q1369 509 1402 515Q1435 520 1468 533Q1500 546 1521 568Q1543 591 1544 619Q1546 647 1532 673Z'/%3E%3Cpath d='M1579 669Q1562 700 1541 723Q1519 747 1503 767Q1486 787 1472 808Q1459 828 1441 847Q1423 867 1398 882Q1374 898 1344 910Q1315 922 1282 932Q1250 942 1212 948Q1174 953 1136 948Q1097 943 1066 925Q1035 907 1015 881Q995 856 982 830Q968 804 955 779Q942 754 932 727Q922 700 925 671Q928 643 947 619Q966 595 995 578Q1024 561 1052 549Q1080 536 1106 524Q1132 512 1159 500Q1187 488 1218 481Q1250 474 1283 473Q1317 472 1353 475Q1388 478 1427 484Q1466 491 1504 505Q1542 520 1566 547Q1591 573 1593 606Q1595 639 1579 669Z'/%3E%3Cpath d='M1625 665Q1606 700 1582 727Q1557 754 1539 777Q1520 800 1504 823Q1488 846 1468 868Q1447 890 1419 908Q1391 926 1358 939Q1325 953 1287 965Q1250 976 1207 983Q1164 989 1120 983Q1076 977 1040 957Q1004 936 982 907Q959 878 944 848Q928 818 913 790Q898 761 887 730Q875 700 879 667Q882 635 904 607Q926 580 959 561Q992 541 1024 527Q1056 513 1086 499Q1115 485 1147 472Q1178 458 1214 450Q1250 442 1288 441Q1326 440 1367 443Q1408 446 1452 454Q1497 461 1540 478Q1583 495 1611 525Q1639 555 1642 593Q1644 630 1625 665Z'/%3E%3Cpath d='M1672 661Q1651 700 1623 730Q1596 760 1574 786Q1553 812 1536 838Q1518 864 1495 889Q1472 914 1440 934Q1409 954 1371 969Q1334 984 1292 998Q1250 1011 1201 1018Q1153 1025 1103 1018Q1054 1012 1014 989Q974 965 948 933Q923 900 906 866Q889 833 872 801Q855 769 842 734Q829 700 833 663Q836 627 861 596Q886 565 923 543Q960 522 996 506Q1032 490 1066 474Q1099 459 1134 443Q1169 428 1209 419Q1250 410 1293 409Q1336 408 1382 411Q1428 415 1478 423Q1527 431 1576 451Q1624 470 1656 503Q1688 537 1691 579Q1693 622 1672 661Z'/%3E%3C/g%3E%3C/svg%3E")}
+:root{
+  --bg:#060e1a; --ink:#eef4fa; --muted:#8aa0b6; --dim:#5d7389;
+  --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.17);
+  --panel:rgba(255,255,255,.035); --panel2:rgba(255,255,255,.065);
+  --teal:#2dd4bf; --blue:#38bdf8; --accent:#2563eb;
+  --danger:#f87171; --success:#34d399;
+  --s-reported:#fbbf24; --s-ack:#38bdf8; --s-prog:#a78bfa; --s-done:#34d399;
+  --display:'Oswald','Arial Narrow','Impact',system-ui,sans-serif;
+  --body:'Space Grotesk','Segoe UI',system-ui,-apple-system,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,'SFMono-Regular',Consolas,monospace;
+  --mx:-400px; --my:-400px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{color-scheme:dark}
+body{
+  font-family:var(--body);color:var(--ink);min-height:100vh;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  background:
+    radial-gradient(1100px 560px at 88% -8%,rgba(45,212,191,.13),transparent 60%),
+    radial-gradient(900px 520px at -8% 108%,rgba(56,189,248,.09),transparent 60%),
+    var(--bg);
+  animation:pageIn .6s ease both;
+}
+@keyframes pageIn{from{opacity:0}to{opacity:1}}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:inherit}
+::selection{background:rgba(45,212,191,.35)}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:8px}
+::-webkit-scrollbar-track{background:transparent}
+
+/* ---- background: faint contour lines that light up around the cursor ---- */
+.topo,.topo-lit{position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--topo) center/cover no-repeat}
+.topo{opacity:.07}
+.topo-lit{opacity:.5;
+  -webkit-mask-image:radial-gradient(circle 230px at var(--mx) var(--my),#000 0,transparent 100%);
+          mask-image:radial-gradient(circle 230px at var(--mx) var(--my),#000 0,transparent 100%)}
+.glow{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(420px circle at var(--mx) var(--my),rgba(45,212,191,.055),transparent 70%)}
+.page{position:relative;z-index:1}
+
+/* ---- type ---- */
+.display{font-family:var(--display);text-transform:uppercase;font-weight:700;letter-spacing:-.005em;line-height:.98}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);display:flex;align-items:center;gap:8px}
+.eyebrow::before{content:"";width:18px;height:1px;background:var(--teal)}
+.mono{font-family:var(--mono)}
+.sub{color:var(--muted);font-size:.95rem}
+
+/* ---- surfaces with HUD corner brackets ---- */
+.panel{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.hud{position:relative}
+.hud::before{content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;opacity:.5;transition:opacity .3s ease;
+  background:
+   linear-gradient(var(--teal),var(--teal)) top left/14px 1px no-repeat,
+   linear-gradient(var(--teal),var(--teal)) top left/1px 14px no-repeat,
+   linear-gradient(var(--teal),var(--teal)) top right/14px 1px no-repeat,
+   linear-gradient(var(--teal),var(--teal)) top right/1px 14px no-repeat,
+   linear-gradient(var(--teal),var(--teal)) bottom left/14px 1px no-repeat,
+   linear-gradient(var(--teal),var(--teal)) bottom left/1px 14px no-repeat,
+   linear-gradient(var(--teal),var(--teal)) bottom right/14px 1px no-repeat,
+   linear-gradient(var(--teal),var(--teal)) bottom right/1px 14px no-repeat}
+.hud:hover::before{opacity:1}
+.panel h2,.panel-title{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.panel-title a{color:var(--teal);text-decoration:none}
+.panel-title a:hover{text-decoration:underline}
+
+/* ---- brand ---- */
+.brand{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;font-size:1.15rem}
+.brand-logo{display:block;width:auto;height:104px;max-width:520px;object-fit:contain;flex:0 0 auto}
+
+.mark{width:18px;height:18px;border:1.5px solid var(--teal);border-radius:50%;position:relative;flex-shrink:0}
+.mark::before,.mark::after{content:"";position:absolute;background:var(--teal)}
+.mark::before{left:50%;top:-4px;bottom:-4px;width:1.5px;transform:translateX(-50%)}
+.mark::after{top:50%;left:-4px;right:-4px;height:1.5px;transform:translateY(-50%)}
+
+/* ---- buttons ---- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:10px;
+  border:1px solid var(--line2);background:rgba(255,255,255,.06);color:var(--ink);font-weight:600;font-size:.9rem;
+  cursor:pointer;text-decoration:none;transition:background .2s ease,transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+.btn:hover{background:rgba(255,255,255,.12);transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn.small{padding:6px 12px;font-size:.8rem;border-radius:8px}
+.btn.primary{background:var(--teal);border-color:var(--teal);color:#04211d;box-shadow:0 6px 20px rgba(45,212,191,.22)}
+.btn.primary:hover{background:#5eead4;box-shadow:0 8px 26px rgba(45,212,191,.34)}
+.btn.success{background:#059669;border-color:#059669;color:#fff}
+.btn.success:hover{background:#047857}
+.btn.danger{background:rgba(248,113,113,.12);color:var(--danger);border-color:rgba(248,113,113,.32)}
+.btn.danger:hover{background:rgba(248,113,113,.24)}
+.btn.ghost{background:transparent}
+.btn .arr{display:inline-block;transition:transform .2s ease}
+.btn:hover .arr{transform:translateX(3px)}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+
+/* ---- forms ---- */
+label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:16px 0 7px;font-weight:500}
+input[type=text],input[type=password],input[type=search],select,textarea{
+  width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--line2);background:rgba(255,255,255,.05);
+  color:#fff;font-size:.95rem;outline:none;transition:border-color .2s ease,background .2s ease,box-shadow .2s ease}
+input:focus,select:focus,textarea:focus{border-color:var(--teal);background:rgba(255,255,255,.08);box-shadow:0 0 0 3px rgba(45,212,191,.12)}
+input::placeholder,textarea::placeholder{color:var(--dim)}
+select option{background:#0f1c2d;color:#fff}
+.msg{font-size:.85rem;margin:10px 0 0;display:none}
+.error{color:var(--danger)}
+.success{color:var(--success)}
+
+/* ---- status badges ---- */
+.badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;font-size:.74rem;font-weight:600;white-space:nowrap;letter-spacing:.02em}
+.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.Reported{background:rgba(251,191,36,.13);color:var(--s-reported)}
+.Acknowledged{background:rgba(56,189,248,.13);color:var(--s-ack)}
+.InProgress{background:rgba(167,139,250,.14);color:var(--s-prog)}
+.Resolved{background:rgba(52,211,153,.13);color:var(--s-done)}
+
+/* ---- scroll reveal (only hides things when JS is running) ---- */
+.js [data-reveal]{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.js [data-reveal].in{opacity:1;transform:none}
+
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(90px);opacity:0;pointer-events:none;background:#0b1626;border:1px solid var(--line2);
+  color:#fff;padding:12px 22px;border-radius:10px;transition:transform .3s;z-index:99;box-shadow:0 12px 30px rgba(0,0,0,.5);font-size:.9rem}
+#toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .js [data-reveal]{opacity:1;transform:none}
+  .topo-lit,.glow{display:none}
+}
+
+
+body{display:block}
+.topnav{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:14px clamp(16px,4vw,48px);background:rgba(6,14,26,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.topnav nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.topnav nav a.nl{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--muted);padding:8px 12px;border-radius:8px;transition:color .2s,background .2s}
+.topnav nav a.nl:hover{color:#fff;background:rgba(255,255,255,.06)}
+.topnav nav a.nl.on{color:var(--teal)}
+.topnav .logout{color:var(--danger)!important}
+.wrap{max-width:1180px;margin:0 auto;padding:34px clamp(16px,4vw,48px) 60px}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:24px}
+.head h1{font-size:clamp(2.2rem,5vw,3.6rem);margin:10px 0 6px}
+.mini-stats{display:flex;gap:12px;flex-wrap:wrap}
+.ms{min-width:104px;padding:12px 16px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+.ms small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.ms b{font-family:var(--display);font-size:1.8rem;line-height:1.1}
+
+.mapframe{position:relative;border-radius:12px;padding:6px;border:1px solid var(--line);background:var(--panel)}
+#map{height:68vh;min-height:380px;width:100%;border-radius:8px;background:#0a1626}
+.leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.92) contrast(.88) saturate(.55)}
+.leaflet-container{font-family:var(--body)}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#0c1828;color:#e7eef6;border:1px solid var(--line2);box-shadow:0 12px 30px rgba(0,0,0,.5)}
+.leaflet-popup-content-wrapper{border-radius:12px}
+.leaflet-popup-content{margin:12px 14px;font-size:13px;line-height:1.5}
+.leaflet-container a.leaflet-popup-close-button{color:var(--muted)}
+.leaflet-control-attribution{background:rgba(6,14,26,.7)!important;color:var(--dim)!important}
+.leaflet-control-attribution a{color:var(--muted)!important}
+.leaflet-bar a{background:#0c1828;color:#fff;border-bottom:1px solid var(--line)}
+.leaflet-bar a:hover{background:#15263b}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.lg{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:99px;border:1px solid var(--line2);background:transparent;color:var(--ink);cursor:pointer;
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;transition:all .2s}
+.lg:hover{background:rgba(255,255,255,.06)}
+.lg.off{opacity:.4}
+.lg .dot{width:10px;height:10px;border-radius:50%;box-shadow:0 0 10px currentColor}
+.lg b{color:var(--muted);font-weight:500}
+.popup img{width:100%;max-height:120px;object-fit:cover;border-radius:6px;margin-bottom:8px}
+.popup .status{font-weight:700}
+.popup small{color:var(--muted)}
+
+
+@media(max-width:600px){.brand-logo{height:78px;max-width:min(390px,72vw)}}
+</style>
+<script>
+(function(){
+  var root=document.documentElement;
+  root.classList.add('js');
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // cursor light for the background contour lines (very subtle)
+  if(!reduce){
+    var raf=0,px=-400,py=-400;
+    addEventListener('pointermove',function(e){
+      px=e.clientX;py=e.clientY;
+      if(!raf)raf=requestAnimationFrame(function(){
+        root.style.setProperty('--mx',px+'px');root.style.setProperty('--my',py+'px');raf=0;
+      });
+    },{passive:true});
+  }
+
+  // fade-up on scroll
+  var io=null;
+  function reveal(scope){
+    var els=(scope||document).querySelectorAll('[data-reveal]:not(.in)');
+    if(reduce||!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+    io=io||new IntersectionObserver(function(list){
+      list.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});
+    },{threshold:.06});
+    els.forEach(function(e){io.observe(e)});
+  }
+
+  // numbers count up once
+  function countUp(scope){
+    (scope||document).querySelectorAll('[data-count]:not([data-done])').forEach(function(el){
+      el.setAttribute('data-done','1');
+      var end=parseFloat(el.getAttribute('data-count'))||0, suf=el.getAttribute('data-suffix')||'';
+      if(reduce||end===0){el.textContent=end+suf;return;}
+      var t0=null,dur=800;
+      function step(t){
+        if(!t0)t0=t; var p=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-p,3);
+        el.textContent=Math.round(end*e)+suf;
+        if(p<1)requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+  window.CS={reveal:reveal,countUp:countUp};
+  document.addEventListener('DOMContentLoaded',function(){reveal();countUp();});
+})();
+
+</script>
+</head>
+<body>
+<div class="topo"></div><div class="topo-lit"></div><div class="glow"></div>
+<div class="page">
+<header class="topnav">
+  <a class="brand" href="citizen_report.html"><img class="brand-logo" src="civicsnap-logo.png" alt="CivicSnap"></a>
+  <nav>
+    <a class="nl on" href="citizen_report.html">Community Map</a>
+    <a class="nl" href="my_reports.html">My Reports</a>
+    <a href="add-issue.html" class="btn small primary">+ Add Issue</a>
+    <a href="login.html" class="nl logout" id="logoutBtn">Logout</a>
+  </nav>
+</header>
+<div class="wrap">
+  <div class="head" data-reveal>
+    <div>
+      <div class="eyebrow">Live community map</div>
+      <h1 class="display">Community Map</h1>
+      <p class="sub" id="subtitle">Loading reports...</p>
+    </div>
+    <div class="mini-stats">
+      <div class="ms"><small>Total</small><b id="statTotal">–</b></div>
+      <div class="ms"><small>Open</small><b id="statOpen">–</b></div>
+      <div class="ms"><small>Resolved</small><b id="statDone">–</b></div>
+    </div>
+  </div>
+
+  <div class="mapframe hud" data-reveal style="--d:.08s"><div id="map"></div></div>
+
+  <div class="legend" data-reveal style="--d:.14s">
+    <button type="button" class="lg" data-status="Reported"><i class="dot" style="background:#E8833A;color:#E8833A"></i>Reported <b id="c-Reported">0</b></button>
+    <button type="button" class="lg" data-status="Acknowledged"><i class="dot" style="background:#2563eb;color:#2563eb"></i>Acknowledged <b id="c-Acknowledged">0</b></button>
+    <button type="button" class="lg" data-status="In Progress"><i class="dot" style="background:#7c3aed;color:#7c3aed"></i>In Progress <b id="c-In Progress">0</b></button>
+    <button type="button" class="lg" data-status="Resolved"><i class="dot" style="background:#15803d;color:#15803d"></i>Resolved <b id="c-Resolved">0</b></button>
+  </div>
+</div>
+</div>
+
+<script>
+    // ---------- Must be logged in as a citizen ----------
+    var token = localStorage.getItem("userToken");
+    var currentUser = localStorage.getItem("user");
+    if (!token || !currentUser) {
+        window.location.href = "citizen.html";
+    }
+
+    // ---------- Logout ----------
+    document.getElementById("logoutBtn").addEventListener("click", function () {
+        localStorage.removeItem("user");
+        localStorage.removeItem("userToken");
+    });
+
+    // Make text safe before putting it inside HTML
+    function esc(text) {
+        return String(text == null ? "" : text).replace(/[&<>"']/g, function (c) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+        });
+    }
+
+    var STATUS_COLORS = {
+        "Reported": "#E8833A",
+        "Acknowledged": "#2563eb",
+        "In Progress": "#7c3aed",
+        "Resolved": "#15803d"
+    };
+    // brighter tones for text on the dark popup
+    var STATUS_TEXT = { "Reported": "#fb923c", "Acknowledged": "#60a5fa", "In Progress": "#a78bfa", "Resolved": "#34d399" };
+
+    // A round coloured pin for each status
+    function makeIcon(color) {
+        return L.divIcon({
+            className: "",
+            html: '<div style="width:22px;height:22px;border-radius:50%;background:' + color +
+                  ';border:3px solid white;box-shadow:0 0 0 4px ' + color + '33,0 2px 8px rgba(0,0,0,0.5);"></div>',
+            iconSize: [22, 22],
+            iconAnchor: [11, 11],
+            popupAnchor: [0, -11]
+        });
+    }
+
+    // ---------- Build the map ----------
+    var map = L.map("map").setView([12.9720, 77.5960], 13);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors",
+        maxZoom: 19
+    }).addTo(map);
+
+    // one layer per status so the legend buttons can show / hide them
+    var layers = {};
+    Object.keys(STATUS_COLORS).forEach(function (s) { layers[s] = L.layerGroup().addTo(map); });
+
+    document.querySelectorAll(".lg").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            var g = layers[btn.dataset.status];
+            if (map.hasLayer(g)) { map.removeLayer(g); btn.classList.add("off"); }
+            else { map.addLayer(g); btn.classList.remove("off"); }
+        });
+    });
+
+    // ---------- Load ALL reports from the database and drop a pin for each ----------
+    fetch("/api/reports", { headers: { Authorization: "Bearer " + token } })
+        .then(function (response) {
+            if (response.status === 401) {
+                localStorage.removeItem("user");
+                localStorage.removeItem("userToken");
+                window.location.href = "citizen.html";
+                throw new Error("Session expired");
+            }
+            return response.json();
+        })
+        .then(function (reports) {
+            var positions = [];
+            var skipped = 0;
+            var counts = { "Reported": 0, "Acknowledged": 0, "In Progress": 0, "Resolved": 0 };
+
+            for (var i = 0; i < reports.length; i++) {
+                var report = reports[i];
+                var loc = report.location || {};
+                if (counts[report.status] != null) counts[report.status]++;
+
+                // a report with no pin cannot be drawn on the map
+                if (loc.lat == null || loc.lng == null) { skipped++; continue; }
+
+                var marker = L.marker([loc.lat, loc.lng], {
+                    icon: makeIcon(STATUS_COLORS[report.status] || "#E8833A")
+                }).addTo(layers[report.status] || layers["Reported"]);
+                positions.push([loc.lat, loc.lng]);
+
+                var mine = report.reportedBy === currentUser ? " (you)" : "";
+                marker.bindPopup(
+                    '<div class="popup">' +
+                    (report.photo ? '<img src="' + esc(report.photo) + '" alt="Issue photo">' : "") +
+                    "<b>" + esc(report.title) + "</b><br>" +
+                    esc(report.category) + "<br>" +
+                    '<span class="status" style="color:' + (STATUS_TEXT[report.status] || "#e7eef6") + '">' + esc(report.status) + "</span><br>" +
+                    "<small>" + esc((report.location && report.location.address) || "") + "</small><br>" +
+                    "<small>Reported by " + esc(report.reportedBy) + mine + "</small>" +
+                    "</div>"
+                );
+            }
+
+            if (positions.length > 0) {
+                map.fitBounds(positions, { padding: [40, 40], maxZoom: 16 });
+            }
+
+            // header numbers + legend counts
+            document.getElementById("statTotal").textContent = reports.length;
+            document.getElementById("statDone").textContent = counts["Resolved"];
+            document.getElementById("statOpen").textContent = reports.length - counts["Resolved"];
+            Object.keys(counts).forEach(function (s) { document.getElementById("c-" + s).textContent = counts[s]; });
+
+            var text = reports.length + (reports.length === 1 ? " issue" : " issues") + " reported by the community";
+            if (skipped > 0) text += " (" + skipped + " without a map pin not shown)";
+            document.getElementById("subtitle").textContent = reports.length === 0
+                ? "No issues reported yet. Be the first - tap \"+ Add Issue\"."
+                : text;
+        })
+        .catch(function (error) {
+            console.error("Could not load reports:", error);
+            document.getElementById("subtitle").textContent = "Could not load reports. Is the server running?";
+        });
+</script>
+</body>
+</html>
