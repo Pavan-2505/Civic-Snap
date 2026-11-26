@@ -42,6 +42,14 @@ router.post("/", requireAuth("citizen"), async (req, res) => {
     const address = String((location && location.address) || (typeof location === "string" ? location : "")).trim();
     const lat = location && location.lat != null ? Number(location.lat) : null;
     const lng = location && location.lng != null ? Number(location.lng) : null;
+    const source = location && ["camera", "photo", "gps", "map"].includes(location.source) ? location.source : "map";
+
+    // coordinates must be real numbers on Earth
+    const badLat = lat !== null && (Number.isNaN(lat) || lat < -90 || lat > 90);
+    const badLng = lng !== null && (Number.isNaN(lng) || lng < -180 || lng > 180);
+    if (badLat || badLng) {
+      return res.status(400).json({ message: "Invalid map location." });
+    }
 
     if (!category || !description || !address || !photo) {
       return res.status(400).json({ message: "Please provide category, description, location and a photo." });
@@ -52,7 +60,7 @@ router.post("/", requireAuth("citizen"), async (req, res) => {
       title: String(description).trim().slice(0, 60),
       category: LEGACY_CATEGORY[category] || category,
       description: String(description).trim(),
-      location: { address, lat, lng },
+      location: { address, lat, lng, source },
       severity: severity || "Medium",
       photo,
       status: "Reported",
